@@ -20,7 +20,7 @@ export default function Hero() {
             <span className="inline-flex h-1.5 w-1.5 rounded-full bg-cyan-400 shadow-[0_0_16px_rgba(34,211,238,0.8)]"></span>
             Neue Folgen jeden Dienstag
           </div>
-          <h1 className="mt-6 text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-semibold tracking-tight text-white break-words">
+          <h1 className="mt-6 text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-semibold tracking-tight text-white break-words leading-tight">
             <TextPressure text="Zukunft ist relativ" />
           </h1>
           <p className="mt-5 text-base sm:text-lg md:text-xl text-slate-400 max-w-2xl mx-auto">
