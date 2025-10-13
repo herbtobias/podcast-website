@@ -62,7 +62,8 @@ export default function TextPressure({ text }: TextPressureProps) {
         fontVariationSettings: "'wdth' 100, 'wght' 700",
         wordBreak: 'keep-all',
         overflowWrap: 'break-word',
-        hyphens: 'none'
+        hyphens: 'none',
+        whiteSpace: 'nowrap'
       }}
     >
       {letters.map((char, index) => {
