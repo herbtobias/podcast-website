@@ -12,7 +12,9 @@ export default function Hero() {
         <div className="absolute right-[-10%] bottom-10 h-80 w-80 rounded-full bg-cyan-400/10 blur-3xl"></div>
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-b from-transparent via-page-bg/50 to-page-bg pointer-events-none"></div>
+      <div className="absolute bottom-0 left-0 right-0 h-96 bg-gradient-to-b from-transparent via-page-bg/30 via-50% to-page-bg pointer-events-none"></div>
+
+      <div className="absolute -bottom-32 left-1/2 -translate-x-1/2 h-96 w-full max-w-4xl rounded-full bg-cyan-400/5 blur-3xl pointer-events-none"></div>
 
       <div className="w-full z-10 relative px-6 md:px-8">
         <div className="text-center">
