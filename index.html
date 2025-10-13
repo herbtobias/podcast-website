@@ -587,14 +587,12 @@
         const canvas = document.getElementById('galaxyCanvas');
         if (!canvas) return;
 
-        const ctx = canvas.getContext('2d');
+        const ctx = canvas.getContext('2d', { alpha: false });
         let width, height;
         let stars = [];
-        const numStars = 800;
+        const numStars = 200;
         let mouseX = 0;
         let mouseY = 0;
-        let targetMouseX = 0;
-        let targetMouseY = 0;
 
         function resize() {
           width = canvas.offsetWidth;
@@ -613,67 +611,39 @@
             this.x = Math.random() * width;
             this.y = Math.random() * height;
             this.z = Math.random() * 1000;
-            this.px = 0;
-            this.py = 0;
           }
 
           update() {
-            this.z -= 2;
-
+            this.z -= 1.5;
             if (this.z <= 0) {
               this.reset();
               this.z = 1000;
             }
+          }
 
+          draw() {
             const k = 128 / this.z;
             const px = (this.x - width / 2) * k + width / 2;
             const py = (this.y - height / 2) * k + height / 2;
 
-            if (px < 0 || px > width || py < 0 || py > height) {
-              this.reset();
-              return;
+            if (px < 0 || px > width || py < 0 || py > height) return;
+
+            const size = (1 - this.z / 1000) * 1.5;
+            const opacity = (1 - this.z / 1000) * 0.8;
+
+            const dx = px - mouseX;
+            const dy = py - mouseY;
+            const dist = dx * dx + dy * dy;
+
+            if (dist < 22500) {
+              const influence = 1 - Math.sqrt(dist) / 150;
+              ctx.fillStyle = `rgba(103, 232, 249, ${opacity * (0.4 + influence * 0.6)})`;
+              ctx.fillRect(px - size * (1 + influence), py - size * (1 + influence),
+                           size * 2 * (1 + influence), size * 2 * (1 + influence));
+            } else {
+              ctx.fillStyle = `rgba(34, 211, 238, ${opacity * 0.5})`;
+              ctx.fillRect(px - size, py - size, size * 2, size * 2);
             }
-
-            this.px = px;
-            this.py = py;
-          }
-
-          draw() {
-            const size = (1 - this.z / 1000) * 2;
-            const opacity = 1 - this.z / 1000;
-
-            const distance = Math.sqrt(
-              Math.pow(this.px - mouseX, 2) + Math.pow(this.py - mouseY, 2)
-            );
-            const maxDistance = 150;
-            const mouseInfluence = Math.max(0, 1 - distance / maxDistance);
-
-            const finalOpacity = opacity * (0.3 + mouseInfluence * 0.7);
-            const finalSize = size * (1 + mouseInfluence * 1.5);
-
-            const hue = 180 + (this.z / 1000) * 20;
-
-            ctx.fillStyle = `hsla(${hue}, 100%, 70%, ${finalOpacity})`;
-            ctx.shadowBlur = mouseInfluence * 10;
-            ctx.shadowColor = `hsla(${hue}, 100%, 70%, ${mouseInfluence})`;
-
-            ctx.beginPath();
-            ctx.arc(this.px, this.py, finalSize, 0, Math.PI * 2);
-            ctx.fill();
-
-            if (this.pz !== undefined) {
-              const lineOpacity = opacity * 0.2;
-              ctx.strokeStyle = `hsla(${hue}, 100%, 70%, ${lineOpacity})`;
-              ctx.lineWidth = 0.5;
-              ctx.beginPath();
-              ctx.moveTo(this.ppx, this.ppy);
-              ctx.lineTo(this.px, this.py);
-              ctx.stroke();
-            }
-
-            this.ppx = this.px;
-            this.ppy = this.py;
-            this.pz = this.z;
           }
         }
 
@@ -685,38 +655,44 @@
         }
 
         function animate() {
-          ctx.fillStyle = 'rgba(7, 9, 17, 0.3)';
+          ctx.fillStyle = '#070911';
           ctx.fillRect(0, 0, width, height);
 
-          mouseX += (targetMouseX - mouseX) * 0.1;
-          mouseY += (targetMouseY - mouseY) * 0.1;
-
-          stars.forEach(star => {
-            star.update();
-            star.draw();
-          });
+          for (let i = 0; i < stars.length; i++) {
+            stars[i].update();
+            stars[i].draw();
+          }
 
           requestAnimationFrame(animate);
         }
 
+        let mouseMoveTimeout;
         canvas.addEventListener('mousemove', (e) => {
+          clearTimeout(mouseMoveTimeout);
           const rect = canvas.getBoundingClientRect();
-          targetMouseX = e.clientX - rect.left;
-          targetMouseY = e.clientY - rect.top;
+          mouseX = e.clientX - rect.left;
+          mouseY = e.clientY - rect.top;
+
+          mouseMoveTimeout = setTimeout(() => {
+            mouseX = -9999;
+            mouseY = -9999;
+          }, 100);
         });
 
         canvas.addEventListener('mouseleave', () => {
-          targetMouseX = width / 2;
-          targetMouseY = height / 2;
+          mouseX = -9999;
+          mouseY = -9999;
         });
 
-        window.addEventListener('resize', resize);
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+          clearTimeout(resizeTimeout);
+          resizeTimeout = setTimeout(resize, 250);
+        });
 
         resize();
-        targetMouseX = width / 2;
-        targetMouseY = height / 2;
-        mouseX = width / 2;
-        mouseY = height / 2;
+        mouseX = -9999;
+        mouseY = -9999;
         animate();
       })();
     </script>
