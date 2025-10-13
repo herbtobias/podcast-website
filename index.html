@@ -113,44 +113,14 @@
     <main class="relative pt-16">
       <!-- HERO HEADLINE - First Element -->
       <section id="hero" class="relative min-h-screen flex items-center justify-center">
-        <!-- Background Effects -->
-        <div class="absolute inset-0 overflow-hidden">
-          <!-- Decorative grid -->
-          <div class="absolute inset-0 opacity-[0.04]" style="background-image: linear-gradient(to right, rgba(255,255,255,0.6) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.6) 1px, transparent 1px); background-size: 48px 48px;"></div>
+        <!-- Galaxy Background Canvas -->
+        <canvas id="galaxyCanvas" class="absolute inset-0 w-full h-full"></canvas>
 
+        <!-- Background Effects -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
           <!-- Aurora glows -->
           <div class="absolute -left-24 top-24 h-72 w-72 rounded-full bg-cyan-500/10 blur-3xl"></div>
           <div class="absolute right-[-10%] bottom-10 h-80 w-80 rounded-full bg-cyan-400/10 blur-3xl"></div>
-
-          <!-- Wireframe globe/atom -->
-          <div class="absolute -right-28 -top-24 md:-right-20 md:-top-20 opacity-[0.10]">
-            <svg width="720" height="720" viewBox="0 0 720 720" fill="none" xmlns="http://www.w3.org/2000/svg" class="animate-spin [animation-duration:28s]">
-              <defs>
-                <radialGradient id="g1" cx="50%" cy="50%">
-                  <stop offset="0%" stop-color="#22d3ee" stop-opacity="0.7"></stop>
-                  <stop offset="100%" stop-color="#22d3ee" stop-opacity="0.0"></stop>
-                </radialGradient>
-              </defs>
-              <!-- Outer glow -->
-              <circle cx="360" cy="360" r="330" stroke="url(#g1)" stroke-width="1.2"></circle>
-              <!-- Longitudes -->
-              <ellipse cx="360" cy="360" rx="300" ry="120" stroke="#22d3ee" stroke-opacity="0.35" stroke-width="0.8"></ellipse>
-              <ellipse transform="rotate(30 360 360)" cx="360" cy="360" rx="300" ry="120" stroke="#22d3ee" stroke-opacity="0.35" stroke-width="0.8"></ellipse>
-              <ellipse transform="rotate(60 360 360)" cx="360" cy="360" rx="300" ry="120" stroke="#22d3ee" stroke-opacity="0.35" stroke-width="0.8"></ellipse>
-              <!-- Latitudes -->
-              <circle cx="360" cy="360" r="280" stroke="#22d3ee" stroke-opacity="0.18" stroke-width="0.8"></circle>
-              <circle cx="360" cy="360" r="220" stroke="#22d3ee" stroke-opacity="0.14" stroke-width="0.8"></circle>
-              <circle cx="360" cy="360" r="160" stroke="#22d3ee" stroke-opacity="0.10" stroke-width="0.8"></circle>
-              <circle cx="360" cy="360" r="100" stroke="#22d3ee" stroke-opacity="0.08" stroke-width="0.8"></circle>
-            </svg>
-          </div>
-          <!-- Particles -->
-          <div class="absolute inset-0">
-            <div class="absolute left-[12%] top-[32%] h-2 w-2 rounded-full bg-cyan-400/70 blur-[0.5px] animate-ping [animation-duration:3.5s]"></div>
-            <div class="absolute left-[28%] top-[68%] h-1.5 w-1.5 rounded-full bg-cyan-300/60 blur-[0.5px] animate-ping [animation-duration:4.2s]"></div>
-            <div class="absolute left-[72%] top-[52%] h-2 w-2 rounded-full bg-cyan-400/70 blur-[0.5px] animate-ping [animation-duration:5.2s]"></div>
-            <div class="absolute left-[60%] top-[22%] h-1.5 w-1.5 rounded-full bg-cyan-300/70 blur-[0.5px] animate-ping [animation-duration:3.9s]"></div>
-          </div>
         </div>
 
         <!-- Full-width centered headline -->
@@ -608,6 +578,146 @@
             root.render(React.createElement(TextPressure, { text: 'Zukunft ist relativ' }));
           }
         });
+      })();
+    </script>
+
+    <!-- Galaxy Background Animation -->
+    <script>
+      (function() {
+        const canvas = document.getElementById('galaxyCanvas');
+        if (!canvas) return;
+
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let stars = [];
+        const numStars = 800;
+        let mouseX = 0;
+        let mouseY = 0;
+        let targetMouseX = 0;
+        let targetMouseY = 0;
+
+        function resize() {
+          width = canvas.offsetWidth;
+          height = canvas.offsetHeight;
+          canvas.width = width;
+          canvas.height = height;
+          initStars();
+        }
+
+        class Star {
+          constructor() {
+            this.reset();
+          }
+
+          reset() {
+            this.x = Math.random() * width;
+            this.y = Math.random() * height;
+            this.z = Math.random() * 1000;
+            this.px = 0;
+            this.py = 0;
+          }
+
+          update() {
+            this.z -= 2;
+
+            if (this.z <= 0) {
+              this.reset();
+              this.z = 1000;
+            }
+
+            const k = 128 / this.z;
+            const px = (this.x - width / 2) * k + width / 2;
+            const py = (this.y - height / 2) * k + height / 2;
+
+            if (px < 0 || px > width || py < 0 || py > height) {
+              this.reset();
+              return;
+            }
+
+            this.px = px;
+            this.py = py;
+          }
+
+          draw() {
+            const size = (1 - this.z / 1000) * 2;
+            const opacity = 1 - this.z / 1000;
+
+            const distance = Math.sqrt(
+              Math.pow(this.px - mouseX, 2) + Math.pow(this.py - mouseY, 2)
+            );
+            const maxDistance = 150;
+            const mouseInfluence = Math.max(0, 1 - distance / maxDistance);
+
+            const finalOpacity = opacity * (0.3 + mouseInfluence * 0.7);
+            const finalSize = size * (1 + mouseInfluence * 1.5);
+
+            const hue = 180 + (this.z / 1000) * 20;
+
+            ctx.fillStyle = `hsla(${hue}, 100%, 70%, ${finalOpacity})`;
+            ctx.shadowBlur = mouseInfluence * 10;
+            ctx.shadowColor = `hsla(${hue}, 100%, 70%, ${mouseInfluence})`;
+
+            ctx.beginPath();
+            ctx.arc(this.px, this.py, finalSize, 0, Math.PI * 2);
+            ctx.fill();
+
+            if (this.pz !== undefined) {
+              const lineOpacity = opacity * 0.2;
+              ctx.strokeStyle = `hsla(${hue}, 100%, 70%, ${lineOpacity})`;
+              ctx.lineWidth = 0.5;
+              ctx.beginPath();
+              ctx.moveTo(this.ppx, this.ppy);
+              ctx.lineTo(this.px, this.py);
+              ctx.stroke();
+            }
+
+            this.ppx = this.px;
+            this.ppy = this.py;
+            this.pz = this.z;
+          }
+        }
+
+        function initStars() {
+          stars = [];
+          for (let i = 0; i < numStars; i++) {
+            stars.push(new Star());
+          }
+        }
+
+        function animate() {
+          ctx.fillStyle = 'rgba(7, 9, 17, 0.3)';
+          ctx.fillRect(0, 0, width, height);
+
+          mouseX += (targetMouseX - mouseX) * 0.1;
+          mouseY += (targetMouseY - mouseY) * 0.1;
+
+          stars.forEach(star => {
+            star.update();
+            star.draw();
+          });
+
+          requestAnimationFrame(animate);
+        }
+
+        canvas.addEventListener('mousemove', (e) => {
+          const rect = canvas.getBoundingClientRect();
+          targetMouseX = e.clientX - rect.left;
+          targetMouseY = e.clientY - rect.top;
+        });
+
+        canvas.addEventListener('mouseleave', () => {
+          targetMouseX = width / 2;
+          targetMouseY = height / 2;
+        });
+
+        window.addEventListener('resize', resize);
+
+        resize();
+        targetMouseX = width / 2;
+        targetMouseY = height / 2;
+        mouseX = width / 2;
+        mouseY = height / 2;
+        animate();
       })();
     </script>
 
