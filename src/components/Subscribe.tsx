@@ -9,7 +9,7 @@ export default function Subscribe() {
   };
 
   return (
-    <section id="subscribe" className="relative py-14 sm:py-16 md:py-20 border-b border-white/3">
+    <section id="subscribe" className="relative py-14 sm:py-16 md:py-20 border-b border-white/5">
       <div className="mx-auto w-full max-w-7xl px-6 md:px-8">
         <h2 className="text-center text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight text-white">
           Jetzt reinhören und abonnieren

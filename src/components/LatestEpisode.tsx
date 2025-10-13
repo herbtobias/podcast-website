@@ -4,7 +4,7 @@ import { latestEpisode } from '../data/content';
 
 export default function LatestEpisode() {
   return (
-    <section id="episode" className="relative py-14 sm:py-16 md:py-20 border-b border-white/3">
+    <section id="episode" className="relative py-14 sm:py-16 md:py-20 border-b border-white/5">
       <div className="mx-auto w-full max-w-7xl px-6 md:px-8">
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight text-white">
           Neueste Episode: {latestEpisode.title}

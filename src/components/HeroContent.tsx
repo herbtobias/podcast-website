@@ -17,13 +17,9 @@ export default function HeroContent() {
   };
 
   return (
-    <section className="relative -mt-20 pt-24 pb-20 border-b border-white/5">
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-page-bg/50 to-page-bg pointer-events-none"></div>
-
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 h-64 w-full max-w-3xl rounded-full bg-cyan-400/3 blur-3xl pointer-events-none"></div>
-
-      <div className="mx-auto w-full max-w-7xl px-6 md:px-8 relative z-10">
-        <div className="max-w-3xl mx-auto text-center animate-fade-in-up">
+    <section className="relative py-20 border-b border-white/5 bg-page-bg">
+      <div className="mx-auto w-full max-w-7xl px-6 md:px-8">
+        <div className="max-w-3xl mx-auto text-center">
           <div className="flex flex-wrap items-center justify-center gap-3">
             <button
               onClick={() => handleScrollTo('episode')}
