@@ -1,10 +1,13 @@
-import { ChevronDown } from 'lucide-react';
-import GalaxyBackground from './GalaxyBackground';
-import TextPressure from './TextPressure';
+import { ChevronDown } from "lucide-react";
+import GalaxyBackground from "./GalaxyBackground";
+import TextPressure from "./TextPressure";
 
 export default function Hero() {
   return (
-    <section id="hero" className="relative min-h-screen flex items-center justify-center">
+    <section
+      id="hero"
+      className="relative min-h-screen flex items-center justify-center"
+    >
       <GalaxyBackground />
 
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -24,7 +27,8 @@ export default function Hero() {
             <TextPressure text="Zukunft ist relativ" />
           </h1>
           <p className="mt-5 text-base sm:text-lg md:text-xl text-slate-400 max-w-2xl mx-auto">
-            Der Podcast über KI, Quanten und die seltsamen Wege des Fortschritts.
+            Der Podcast über das neue KI-Zeitalter, Identität und die Pfade des
+            Fortschritts.
           </p>
         </div>
       </div>

@@ -1,4 +1,5 @@
 import { PodcastEpisode, PodcastHost, Topic, PlatformLink } from '../types';
+import profilePicture from './profil_picture_th.jpg';
 
 export const latestEpisode: PodcastEpisode = {
   id: '7',
@@ -16,14 +17,14 @@ export const latestEpisode: PodcastEpisode = {
 export const hosts: PodcastHost[] = [
   {
     id: '1',
-    name: 'Sprecher A',
-    role: 'Forscher:in für KI-Systeme',
-    bio: 'Bringt Modelle zum Singen und Daten zum Tanzen. Interessiert an der Schnittstelle von Theorie und Praxis.',
-    image: 'https://images.unsplash.com/photo-1607746882042-944635dfe10e?q=80&w=600&auto=format&fit=crop'
+    name: 'Tobias Herb',
+    role: 'Der analytische Vordenker und technologiebegeisterte Co-Host',
+    bio: 'Er ist der Co-Host mit einem Gespür für zukünftige Trends, der die Diskussionen mit Einblicken in agile KI-Entwicklung, gesellschaftliche Dynamiken und zeitgenössische Philosophie bereichert.',
+    image: profilePicture
   },
   {
     id: '2',
-    name: 'Sprecher B',
+    name: 'Patrick Gieser',
     role: 'Philosoph:in & Science-Communicator',
     bio: 'Fragt, ob wir wirklich wissen, was wir zu wissen glauben — und warum das wichtig ist.',
     image: 'https://images.unsplash.com/photo-1548142813-c348350df52b?q=80&w=600&auto=format&fit=crop'

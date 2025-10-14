@@ -17,7 +17,7 @@ export default function Newsletter() {
         <div className="relative overflow-hidden rounded-2xl border border-cyan-400/30 bg-card-bg/60 p-6 sm:p-10 backdrop-blur reveal-on-scroll">
           <div className="absolute -right-24 -top-24 h-48 w-48 rounded-full bg-cyan-500/10 blur-2xl"></div>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight text-white">
-            Bleib relativ auf dem Laufenden
+            Bleib auf dem Laufenden
           </h2>
           <p className="mt-3 max-w-2xl text-slate-300">
             Abonniere den wöchentlichen Newsletter für exklusive Einblicke, Leseempfehlungen und Behind-the-Scenes-Material.

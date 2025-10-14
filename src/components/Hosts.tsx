@@ -5,7 +5,7 @@ export default function Hosts() {
     <section id="hosts" className="relative py-14 sm:py-16 md:py-20 border-b border-white/5">
       <div className="mx-auto w-full max-w-7xl px-6 md:px-8">
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight text-white">
-          Die relativ dynamischen Hosts
+          Die Köpfe hinter dem Mikrofon
         </h2>
 
         <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8 reveal-on-scroll">

@@ -1,7 +1,10 @@
 import { Twitter, Github, Mail } from 'lucide-react';
+import { useState } from 'react';
+import Impressum from './Impressum';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
+  const [isImpressumOpen, setIsImpressumOpen] = useState(false);
 
   return (
     <footer className="relative py-10">
@@ -19,9 +22,9 @@ export default function Footer() {
             <a href="#" className="text-sm text-slate-400 hover:text-cyan-300 hover:underline underline-offset-4">
               Kontakt
             </a>
-            <a href="#" className="text-sm text-slate-400 hover:text-cyan-300 hover:underline underline-offset-4">
+            <button onClick={() => setIsImpressumOpen(true)} className="text-sm text-slate-400 hover:text-cyan-300 hover:underline underline-offset-4">
               Impressum
-            </a>
+            </button>
             <div className="h-4 w-px bg-white/10 mx-1"></div>
             <div className="flex items-center gap-3">
               <a href="#" aria-label="Twitter" className="text-cyan-300/80 hover:text-cyan-300 transition">
@@ -37,6 +40,7 @@ export default function Footer() {
           </div>
         </div>
       </div>
+      <Impressum isOpen={isImpressumOpen} onClose={() => setIsImpressumOpen(false)} />
     </footer>
   );
 }
