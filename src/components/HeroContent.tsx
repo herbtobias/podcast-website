@@ -1,5 +1,5 @@
-import { PlayCircle, Rss, Star } from 'lucide-react';
-import { listenerAvatars } from '../data/content';
+import { PlayCircle, Rss, Star } from "lucide-react";
+import { listenerAvatars } from "../data/content";
 
 export default function HeroContent() {
   const handleScrollTo = (id: string) => {
@@ -11,7 +11,7 @@ export default function HeroContent() {
 
       window.scrollTo({
         top: offsetPosition,
-        behavior: 'smooth'
+        behavior: "smooth",
       });
     }
   };
@@ -22,14 +22,14 @@ export default function HeroContent() {
         <div className="max-w-3xl mx-auto text-center">
           <div className="flex flex-wrap items-center justify-center gap-3">
             <button
-              onClick={() => handleScrollTo('episode')}
+              onClick={() => handleScrollTo("episode")}
               className="group inline-flex items-center gap-2 rounded-full bg-cyan-500 px-4 py-2 text-slate-900 font-medium hover:bg-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/60 transition shadow-[0_0_0_1px_rgba(34,211,238,0.4),0_10px_30px_rgba(34,211,238,0.25)]"
             >
               <PlayCircle className="h-5 w-5" />
               Jetzt abspielen
             </button>
             <button
-              onClick={() => handleScrollTo('subscribe')}
+              onClick={() => handleScrollTo("subscribe")}
               className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.02] px-4 py-2 text-slate-200 hover:border-cyan-400/50 hover:text-cyan-200 focus:outline-none focus:ring-2 focus:ring-cyan-400/40 transition"
             >
               <Rss className="h-5 w-5" />

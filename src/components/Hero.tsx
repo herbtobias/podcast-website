@@ -21,7 +21,7 @@ export default function Hero() {
         <div className="text-center">
           <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-slate-300/80 backdrop-blur">
             <span className="inline-flex h-1.5 w-1.5 rounded-full bg-cyan-400 shadow-[0_0_16px_rgba(34,211,238,0.8)]"></span>
-            Neue Folgen jeden Dienstag
+            Neue Folgen jede Woche
           </div>
           <h1 className="mt-6 text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-semibold tracking-tight text-white break-words leading-tight">
             <TextPressure text="Zukunft ist relativ" />
