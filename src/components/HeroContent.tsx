@@ -35,10 +35,10 @@ export default function HeroContent() {
               <Rss className="h-5 w-5" />
               Abonnieren
             </button>
-            <div className="ml-1 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.02] px-3 py-1.5 text-xs text-slate-300">
+            {/* <div className="ml-1 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.02] px-3 py-1.5 text-xs text-slate-300">
               <Star className="h-4 w-4 text-amber-300" />
               4.8 · 1.2k Bewertungen
-            </div>
+            </div> */}
           </div>
 
           <div className="mt-5 flex items-center justify-center gap-3">
@@ -52,9 +52,9 @@ export default function HeroContent() {
                 />
               ))}
             </div>
-            <div className="text-xs text-slate-400">
+            {/* <div className="text-xs text-slate-400">
               Über 50k Hörer:innen monatlich
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
