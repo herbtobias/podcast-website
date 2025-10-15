@@ -1,6 +1,6 @@
-import { Twitter, Github, Mail } from 'lucide-react';
-import { useState } from 'react';
-import Impressum from './Impressum';
+import { X, Mail } from "lucide-react";
+import { useState } from "react";
+import Impressum from "./Impressum";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -19,28 +19,42 @@ export default function Footer() {
             </div>
           </div>
           <div className="flex items-center gap-5">
-            <a href="#" className="text-sm text-slate-400 hover:text-cyan-300 hover:underline underline-offset-4">
+            <a
+              href="#"
+              className="text-sm text-slate-400 hover:text-cyan-300 hover:underline underline-offset-4"
+            >
               Kontakt
             </a>
-            <button onClick={() => setIsImpressumOpen(true)} className="text-sm text-slate-400 hover:text-cyan-300 hover:underline underline-offset-4">
+            <button
+              onClick={() => setIsImpressumOpen(true)}
+              className="text-sm text-slate-400 hover:text-cyan-300 hover:underline underline-offset-4"
+            >
               Impressum
             </button>
             <div className="h-4 w-px bg-white/10 mx-1"></div>
             <div className="flex items-center gap-3">
-              <a href="#" aria-label="Twitter" className="text-cyan-300/80 hover:text-cyan-300 transition">
-                <Twitter className="h-5 w-5" />
+              <a
+                href="#"
+                aria-label="Twitter"
+                className="text-cyan-300/80 hover:text-cyan-300 transition"
+              >
+                <X className="h-5 w-5" />
               </a>
-              <a href="#" aria-label="GitHub" className="text-cyan-300/80 hover:text-cyan-300 transition">
-                <Github className="h-5 w-5" />
-              </a>
-              <a href="#" aria-label="E-Mail" className="text-cyan-300/80 hover:text-cyan-300 transition">
+              <a
+                href="#"
+                aria-label="E-Mail"
+                className="text-cyan-300/80 hover:text-cyan-300 transition"
+              >
                 <Mail className="h-5 w-5" />
               </a>
             </div>
           </div>
         </div>
       </div>
-      <Impressum isOpen={isImpressumOpen} onClose={() => setIsImpressumOpen(false)} />
+      <Impressum
+        isOpen={isImpressumOpen}
+        onClose={() => setIsImpressumOpen(false)}
+      />
     </footer>
   );
 }
