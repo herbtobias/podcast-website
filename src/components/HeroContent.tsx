@@ -1,5 +1,4 @@
-import { PlayCircle, Rss, Star } from "lucide-react";
-import { listenerAvatars } from "../data/content";
+import { PlayCircle, Rss } from "lucide-react";
 
 export default function HeroContent() {
   const handleScrollTo = (id: string) => {

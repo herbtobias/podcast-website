@@ -8,7 +8,6 @@ import Newsletter from "./components/Newsletter";
 import Topics from "./components/Topics";
 import Hosts from "./components/Hosts";
 import Footer from "./components/Footer";
-import EpisodeCard from "./components/EpisodeCard";
 import { useScrollReveal } from "./hooks/useScrollReveal";
 
 function App() {
