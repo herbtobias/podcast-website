@@ -41,7 +41,7 @@ export default function HeroContent() {
             </div> */}
           </div>
 
-          <div className="mt-5 flex items-center justify-center gap-3">
+          {/* <div className="mt-5 flex items-center justify-center gap-3">
             <div className="flex -space-x-3">
               {listenerAvatars.map((avatar, index) => (
                 <img
@@ -51,7 +51,7 @@ export default function HeroContent() {
                   className="h-7 w-7 rounded-full object-cover ring-2 ring-cyan-400/20"
                 />
               ))}
-            </div>
+            </div> */}
             {/* <div className="text-xs text-slate-400">
               Über 50k Hörer:innen monatlich
             </div> */}
