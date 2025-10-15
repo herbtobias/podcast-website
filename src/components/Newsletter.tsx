@@ -74,6 +74,7 @@ export default function Newsletter() {
                 method="POST"
                 action="https://4674c2ba.sibforms.com/serve/MUIFADZ1xqn8NG69X3Fxe7WLc-NTAyq7dqGEgiZauy9Y594spNEwWdP8AQHE2noh64aJlm14OouUCsp9qEKbmy39z-lt3KadFYMrAkPh-JFPX92V1VWsmiTiU3zDlVTCPveGy2laFCgu59xIq9BhAarVO4FxJnOdC4PQVp61kSWapyiNLSINNt8BPY_CioAdHlHJmyGcjWNORfghrA=="
                 data-type="subscription"
+                target="_blank"
               >
                 <div className="mx-auto max-w-xl">
                   {/* Email Input */}
