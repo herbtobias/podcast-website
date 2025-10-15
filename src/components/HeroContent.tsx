@@ -55,7 +55,7 @@ export default function HeroContent() {
             {/* <div className="text-xs text-slate-400">
               Über 50k Hörer:innen monatlich
             </div> */}
-          </div>
+          {/* </div> */}
         </div>
       </div>
     </section>
