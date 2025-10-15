@@ -1,14 +1,39 @@
 import { useState } from 'react';
-import { Mail, ArrowRight } from 'lucide-react';
+import { Mail, ArrowRight, Loader2 } from 'lucide-react';
+import { supabase } from '../lib/supabase';
 
 export default function Newsletter() {
   const [email, setEmail] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSuccess(true);
-    setEmail('');
+    setIsLoading(true);
+    setError('');
+    setSuccess(false);
+
+    try {
+      const { error: insertError } = await supabase
+        .from('newsletter_subscriptions')
+        .insert([{ email }]);
+
+      if (insertError) {
+        if (insertError.code === '23505') {
+          setError('Diese E-Mail-Adresse ist bereits registriert.');
+        } else {
+          setError('Es ist ein Fehler aufgetreten. Bitte versuche es später erneut.');
+        }
+      } else {
+        setSuccess(true);
+        setEmail('');
+      }
+    } catch (err) {
+      setError('Es ist ein Fehler aufgetreten. Bitte versuche es später erneut.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -41,15 +66,30 @@ export default function Newsletter() {
               </div>
               <button
                 type="submit"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-cyan-500 px-5 py-3 text-slate-900 font-medium hover:bg-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/60 transition shadow-[0_0_0_1px_rgba(34,211,238,0.4),0_10px_30px_rgba(34,211,238,0.25)]"
+                disabled={isLoading}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-cyan-500 px-5 py-3 text-slate-900 font-medium hover:bg-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/60 transition shadow-[0_0_0_1px_rgba(34,211,238,0.4),0_10px_30px_rgba(34,211,238,0.25)] disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Jetzt abonnieren
-                <ArrowRight className="h-4 w-4" />
+                {isLoading ? (
+                  <>
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    Wird angemeldet...
+                  </>
+                ) : (
+                  <>
+                    Jetzt abonnieren
+                    <ArrowRight className="h-4 w-4" />
+                  </>
+                )}
               </button>
             </div>
             {success && (
               <p className="mt-4 text-sm text-cyan-300">
-                Danke! Bitte prüfe dein Postfach und bestätige deine Anmeldung.
+                Danke! Wir halten dich ab jetzt auf dem Laufenden.
+              </p>
+            )}
+            {error && (
+              <p className="mt-4 text-sm text-red-400">
+                {error}
               </p>
             )}
           </form>

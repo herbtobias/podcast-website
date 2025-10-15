@@ -34,3 +34,9 @@ export interface PlatformLink {
   icon: string;
   description: string;
 }
+
+export interface NewsletterSubscription {
+  id?: string;
+  email: string;
+  created_at?: string;
+}
