@@ -1,19 +1,26 @@
 import { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 
 export default function Navigation() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const location = useLocation();
+  const isHomePage = location.pathname === '/';
 
   const navLinks = [
-    { href: '#hero', label: 'Home' },
-    { href: '#subscribe', label: 'Abonnieren' },
-    { href: '#episode', label: 'Episode' },
-    { href: '#topics', label: 'Themen' },
-    { href: '#hosts', label: 'Hosts' },
-    { href: '#newsletter', label: 'Newsletter' },
+    { href: '#hero', label: 'Home', type: 'anchor' },
+    { href: '#subscribe', label: 'Abonnieren', type: 'anchor' },
+    { href: '#episode', label: 'Episode', type: 'anchor' },
+    { href: '#topics', label: 'Themen', type: 'anchor' },
+    { href: '#hosts', label: 'Hosts', type: 'anchor' },
+    { href: '#newsletter', label: 'Newsletter', type: 'anchor' },
   ];
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (!isHomePage) {
+      return;
+    }
+
     e.preventDefault();
     const targetElement = document.querySelector(href);
     if (targetElement) {
@@ -33,15 +40,21 @@ export default function Navigation() {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-page-bg/90 backdrop-blur-md border-b border-white/5">
       <div className="mx-auto w-full max-w-7xl px-6 md:px-8">
         <div className="flex items-center justify-between h-16">
-          <div className="flex items-center gap-3">
+          <Link to="/" className="flex items-center gap-3">
             <div className="flex h-8 w-8 items-center justify-center rounded-md bg-cyan-500/10 ring-1 ring-cyan-400/30 text-cyan-300 font-semibold tracking-tight text-sm">
               ZR
             </div>
             <span className="text-white font-medium">Zukunft ist relativ</span>
-          </div>
+          </Link>
 
           <div className="hidden md:flex items-center space-x-8">
-            {navLinks.map((link) => (
+            <Link
+              to="/episoden"
+              className="text-slate-300 hover:text-cyan-300 transition-colors text-sm font-medium"
+            >
+              Episoden
+            </Link>
+            {isHomePage && navLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
@@ -65,7 +78,14 @@ export default function Navigation() {
         {mobileMenuOpen && (
           <div className="md:hidden pb-4">
             <div className="flex flex-col space-y-3">
-              {navLinks.map((link) => (
+              <Link
+                to="/episoden"
+                onClick={() => setMobileMenuOpen(false)}
+                className="text-slate-300 hover:text-cyan-300 transition-colors text-sm font-medium py-2"
+              >
+                Episoden
+              </Link>
+              {isHomePage && navLinks.map((link) => (
                 <a
                   key={link.href}
                   href={link.href}
