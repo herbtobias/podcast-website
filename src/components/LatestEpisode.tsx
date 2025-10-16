@@ -1,4 +1,5 @@
-import { Clock, Calendar } from 'lucide-react';
+import { Clock, Calendar, ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import AudioPlayer from './AudioPlayer';
 import { latestEpisode } from '../data/content';
 
@@ -35,6 +36,16 @@ export default function LatestEpisode() {
               </div>
             </div>
           </div>
+        </div>
+
+        <div className="mt-8 flex justify-center">
+          <Link
+            to="/episoden"
+            className="group inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-cyan-500 text-slate-900 font-medium hover:bg-cyan-400 transition-all duration-300 shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40"
+          >
+            Alle Episoden anzeigen
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+          </Link>
         </div>
       </div>
     </section>

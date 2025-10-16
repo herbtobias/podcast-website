@@ -48,12 +48,6 @@ export default function Navigation() {
           </Link>
 
           <div className="hidden md:flex items-center space-x-8">
-            <Link
-              to="/episoden"
-              className="text-slate-300 hover:text-cyan-300 transition-colors text-sm font-medium"
-            >
-              Episoden
-            </Link>
             {isHomePage && navLinks.map((link) => (
               <a
                 key={link.href}
@@ -78,13 +72,6 @@ export default function Navigation() {
         {mobileMenuOpen && (
           <div className="md:hidden pb-4">
             <div className="flex flex-col space-y-3">
-              <Link
-                to="/episoden"
-                onClick={() => setMobileMenuOpen(false)}
-                className="text-slate-300 hover:text-cyan-300 transition-colors text-sm font-medium py-2"
-              >
-                Episoden
-              </Link>
               {isHomePage && navLinks.map((link) => (
                 <a
                   key={link.href}
