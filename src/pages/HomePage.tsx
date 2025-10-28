@@ -7,6 +7,8 @@ import Newsletter from '../components/Newsletter';
 import Topics from '../components/Topics';
 import Hosts from '../components/Hosts';
 import Footer from '../components/Footer';
+import SEO from '../components/SEO';
+import StructuredData from '../components/StructuredData';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 
 export default function HomePage() {
@@ -27,15 +29,24 @@ export default function HomePage() {
   }, []);
 
   return (
-    <main className="relative pt-16">
-      <Hero />
-      <HeroContent />
-      <Subscribe />
-      <LatestEpisode />
-      <Newsletter />
-      <Topics />
-      <Hosts />
-      <Footer />
-    </main>
+    <>
+      <SEO
+        title="Zukunft ist relativ — Der KI-Podcast über Technologie und Zukunft"
+        description="Der Podcast über das neue KI-Zeitalter, Identität und die Pfade des Fortschritts. Tobias und Patrick erkunden KI & Kreativität, nachhaltige Tech-Wetten und die Zukunft des Körpers. Jetzt reinhören!"
+        keywords="KI Podcast, Künstliche Intelligenz, Zukunft Podcast, Technologie Podcast, generative KI, Biohacking, Innovation, Wissenschaft Podcast, deutscher Podcast"
+        ogType="website"
+      />
+      <StructuredData type="podcast" />
+      <main className="relative pt-16">
+        <Hero />
+        <HeroContent />
+        <Subscribe />
+        <LatestEpisode />
+        <Newsletter />
+        <Topics />
+        <Hosts />
+        <Footer />
+      </main>
+    </>
   );
 }

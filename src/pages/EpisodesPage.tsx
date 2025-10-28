@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { Search, X, Loader2 } from 'lucide-react';
 import EpisodeListCard from '../components/EpisodeListCard';
 import GalaxyBackground from '../components/GalaxyBackground';
+import SEO from '../components/SEO';
+import StructuredData from '../components/StructuredData';
 import { PodcastEpisode } from '../types';
 import { searchEpisodes } from '../lib/episodesService';
 import { useDebounce } from '../hooks/useDebounce';
@@ -40,8 +42,16 @@ export default function EpisodesPage() {
   };
 
   return (
-    <div className="min-h-screen bg-page-bg text-white">
-      <GalaxyBackground />
+    <>
+      <SEO
+        title="Alle Episoden — Zukunft ist relativ Podcast"
+        description="Entdecke alle Folgen von 'Zukunft ist relativ' – der Podcast über KI, Technologie und Zukunft. Durchsuche Episoden zu KI & Kreativität, nachhaltige Tech-Wetten und die Zukunft des Körpers."
+        keywords="Podcast Episoden, KI Podcast, alle Folgen, Zukunft ist relativ, Technologie Podcast Archiv"
+        ogType="website"
+      />
+      <StructuredData type="website" />
+      <div className="min-h-screen bg-page-bg text-white">
+        <GalaxyBackground />
 
       <div className="relative mx-auto w-full max-w-7xl px-6 md:px-8 pt-32 pb-20">
         <div className="mb-12 text-center">
@@ -123,5 +133,6 @@ export default function EpisodesPage() {
         )}
       </div>
     </div>
+    </>
   );
 }

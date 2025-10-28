@@ -19,7 +19,7 @@ export default function EpisodeListCard({ episode, onPlay }: EpisodeListCardProp
         <div className="relative flex-shrink-0">
           <img
             src={episode.coverImage}
-            alt={episode.title}
+            alt={`Cover-Bild: ${episode.title} - Season ${episode.season} Episode ${episode.episode}`}
             className="h-24 w-24 rounded-lg object-cover ring-1 ring-white/10 transition-transform duration-300 group-hover:scale-105"
           />
           <button

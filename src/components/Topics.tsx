@@ -22,12 +22,12 @@ export default function Topics() {
               className="group relative overflow-hidden rounded-2xl border border-cyan-400/30 bg-white/[0.02] p-6 hover:border-cyan-300/60 transition"
             >
               <div className="absolute -right-16 -top-16 h-40 w-40 rounded-full bg-cyan-500/10 blur-2xl"></div>
-              <div className="flex items-center gap-3">
-                <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-cyan-400/10 ring-1 ring-inset ring-cyan-400/30">
+              <header className="flex items-center gap-3">
+                <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-cyan-400/10 ring-1 ring-inset ring-cyan-400/30" aria-hidden="true">
                   {getIcon(topic.icon)}
                 </div>
                 <h3 className="text-lg font-medium text-white/95">{topic.title}</h3>
-              </div>
+              </header>
               <p className="mt-3 text-sm leading-relaxed text-slate-300">
                 {topic.description}
               </p>

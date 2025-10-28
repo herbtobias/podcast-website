@@ -17,7 +17,7 @@ export default function Hosts() {
               <div className="flex items-center gap-5">
                 <img
                   src={host.image}
-                  alt={host.name}
+                  alt={`Profilbild von ${host.name}, ${host.role}`}
                   className="h-20 w-20 rounded-full object-cover ring-2 ring-cyan-400/30"
                 />
                 <div>

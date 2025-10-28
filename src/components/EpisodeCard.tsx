@@ -31,7 +31,7 @@ export default function EpisodeCard() {
         <div className="flex items-center gap-3">
           <img
             src={latestEpisode.coverImage}
-            alt="Episoden-Cover"
+            alt={`Cover der Episode: ${latestEpisode.title}`}
             className="h-12 w-12 rounded-lg object-cover ring-1 ring-white/10"
           />
           <div className="min-w-0">
