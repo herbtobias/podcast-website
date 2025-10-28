@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Search, X, Loader2 } from 'lucide-react';
+import { Search, X, Loader as Loader2 } from 'lucide-react';
 import EpisodeListCard from '../components/EpisodeListCard';
 import GalaxyBackground from '../components/GalaxyBackground';
 import SEO from '../components/SEO';
