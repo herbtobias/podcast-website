@@ -1,11 +1,24 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 
 export default function Navigation() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
   const isHomePage = location.pathname === '/';
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollThreshold = window.innerHeight * 0.5;
+      setIsScrolled(window.scrollY > scrollThreshold);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll();
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const navLinks = [
     { href: '#hero', label: 'Home', type: 'anchor' },
@@ -36,15 +49,21 @@ export default function Navigation() {
     setMobileMenuOpen(false);
   };
 
+  const showBranding = isScrolled || !isHomePage;
+
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-page-bg/90 backdrop-blur-md border-b border-white/5">
       <div className="mx-auto w-full max-w-7xl px-6 md:px-8">
         <div className="flex items-center justify-between h-16">
           <Link to="/" className="flex items-center gap-3">
-            <div className="flex h-8 w-8 items-center justify-center rounded-md bg-cyan-500/10 ring-1 ring-cyan-400/30 text-cyan-300 font-semibold tracking-tight text-sm">
+            <div className={`flex h-8 w-8 items-center justify-center rounded-md bg-cyan-500/10 ring-1 ring-cyan-400/30 text-cyan-300 font-semibold tracking-tight text-sm transition-all duration-500 ${
+              showBranding ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4 pointer-events-none'
+            }`}>
               ZR
             </div>
-            <span className="text-white font-medium">Zukunft ist relativ</span>
+            <span className={`text-white font-medium transition-all duration-500 ${
+              showBranding ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4 pointer-events-none'
+            }`}>Zukunft ist relativ</span>
           </Link>
 
           <div className="hidden md:flex items-center space-x-8">
