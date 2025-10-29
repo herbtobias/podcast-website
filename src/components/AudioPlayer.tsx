@@ -4,11 +4,10 @@ import { useAudioPlayer } from '../hooks/useAudioPlayer';
 interface AudioPlayerProps {
   audioUrl: string;
   title: string;
-  season: number;
   episode: number;
 }
 
-export default function AudioPlayer({ audioUrl, title, season, episode }: AudioPlayerProps) {
+export default function AudioPlayer({ audioUrl, title, episode }: AudioPlayerProps) {
   const {
     isPlaying,
     currentTime,
@@ -58,7 +57,7 @@ export default function AudioPlayer({ audioUrl, title, season, episode }: AudioP
         <div className="min-w-0 flex-1">
           <div className="flex items-center justify-between">
             <div className="text-sm font-medium text-white/90 truncate">
-              {title} — Staffel {season}, Folge {episode}
+              {title} — Folge {episode}
             </div>
             <div className="text-xs tabular-nums text-slate-400 ml-4 flex-none">
               {formatTime(currentTime)} / {formatTime(duration)}

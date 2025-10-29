@@ -54,7 +54,6 @@ export default function StructuredData({ type, episode }: StructuredDataProps) {
     "name": episode.title,
     "description": episode.description,
     "episodeNumber": episode.episode,
-    "seasonNumber": episode.season,
     "datePublished": episode.publishedDate,
     "duration": `PT${episode.durationMinutes}M`,
     "associatedMedia": {

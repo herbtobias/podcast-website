@@ -19,7 +19,7 @@ export default function EpisodeListCard({ episode, onPlay }: EpisodeListCardProp
         <div className="relative flex-shrink-0">
           <img
             src={episode.coverImage}
-            alt={`Cover-Bild: ${episode.title} - Season ${episode.season} Episode ${episode.episode}`}
+            alt={`Cover-Bild: ${episode.title} - Episode ${episode.episode}`}
             className="h-24 w-24 rounded-lg object-cover ring-1 ring-white/10 transition-transform duration-300 group-hover:scale-105"
           />
           <button
@@ -42,7 +42,7 @@ export default function EpisodeListCard({ episode, onPlay }: EpisodeListCardProp
 
           <div className="flex items-center gap-3 text-sm text-slate-400 mb-3">
             <span className="flex items-center gap-1">
-              S{episode.season}E{episode.episode}
+              Folge {episode.episode}
             </span>
             <span>•</span>
             <span className="flex items-center gap-1">

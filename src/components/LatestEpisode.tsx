@@ -50,7 +50,6 @@ export default function LatestEpisode() {
             <AudioPlayer
               audioUrl={episode.audioUrl}
               title={episode.title}
-              season={episode.season}
               episode={episode.episode}
             />
           </div>

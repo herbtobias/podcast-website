@@ -84,7 +84,6 @@ Deno.serve(async (req: Request) => {
           duration: episode.duration,
           duration_minutes: parseDurationToMinutes(episode.duration),
           cover_image: episode.coverImage || "https://images.unsplash.com/photo-1520975916090-3105956dac38?q=80&w=600&auto=format&fit=crop",
-          season: extractSeasonNumber(episode.title),
           episode: extractEpisodeNumber(episode.title),
           rss_imported_at: new Date().toISOString(),
           is_preview: false,
@@ -223,11 +222,6 @@ function parseDurationToMinutes(duration: string): number {
   }
   
   return 0;
-}
-
-function extractSeasonNumber(title: string): number {
-  const seasonMatch = title.match(/S(\d+)E\d+/i) || title.match(/Season\s+(\d+)/i);
-  return seasonMatch ? parseInt(seasonMatch[1], 10) : 1;
 }
 
 function extractEpisodeNumber(title: string): number {

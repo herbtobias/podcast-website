@@ -16,7 +16,6 @@ export async function getAllEpisodes(): Promise<PodcastEpisode[]> {
   return (data || []).map(episode => ({
     id: episode.id,
     title: episode.title,
-    season: episode.season,
     episode: episode.episode,
     duration: episode.duration,
     durationMinutes: episode.duration_minutes,
@@ -51,7 +50,6 @@ export async function searchEpisodes(searchTerm: string): Promise<PodcastEpisode
   return (data || []).map(episode => ({
     id: episode.id,
     title: episode.title,
-    season: episode.season,
     episode: episode.episode,
     duration: episode.duration,
     durationMinutes: episode.duration_minutes,
@@ -87,7 +85,6 @@ export async function getLatestEpisode(): Promise<PodcastEpisode | null> {
   return {
     id: data.id,
     title: data.title,
-    season: data.season,
     episode: data.episode,
     duration: data.duration,
     durationMinutes: data.duration_minutes,

@@ -5,7 +5,6 @@ import profilePicturePG from './profil_picture_pg.jpg';
 export const latestEpisode: PodcastEpisode = {
   id: '7',
   title: 'Quantenrauschen',
-  season: 1,
   episode: 7,
   duration: '54:00',
   durationMinutes: 54,

@@ -1,7 +1,6 @@
 export interface PodcastEpisode {
   id: string;
   title: string;
-  season: number;
   episode: number;
   duration: string;
   durationMinutes: number;
