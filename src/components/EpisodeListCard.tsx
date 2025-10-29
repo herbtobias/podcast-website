@@ -7,14 +7,23 @@ interface EpisodeListCardProps {
 }
 
 export default function EpisodeListCard({ episode, onPlay }: EpisodeListCardProps) {
-  const handlePlayClick = () => {
+  const handlePlayClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
     if (onPlay) {
       onPlay(episode);
     }
   };
 
+  const handleCardClick = () => {
+    if (episode.episodeUrl) {
+      window.open(episode.episodeUrl, '_blank', 'noopener,noreferrer');
+    }
+  };
+
   return (
-    <div className="group relative rounded-2xl border border-white/10 bg-slate-900/40 backdrop-blur-sm p-5 transition-all duration-300 hover:border-cyan-500/30 hover:bg-slate-900/60 hover:shadow-lg hover:shadow-cyan-500/10">
+    <div
+      onClick={handleCardClick}
+      className="group relative rounded-2xl border border-white/10 bg-slate-900/40 backdrop-blur-sm p-5 transition-all duration-300 hover:border-cyan-500/30 hover:bg-slate-900/60 hover:shadow-lg hover:shadow-cyan-500/10 cursor-pointer">
       <div className="flex gap-4">
         <div className="relative flex-shrink-0">
           <img

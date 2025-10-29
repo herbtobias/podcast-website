@@ -26,7 +26,8 @@ export async function getAllEpisodes(): Promise<PodcastEpisode[]> {
       day: 'numeric'
     }),
     audioUrl: episode.audio_url,
-    coverImage: episode.cover_image
+    coverImage: episode.cover_image,
+    episodeUrl: episode.episode_url
   }));
 }
 
@@ -60,7 +61,8 @@ export async function searchEpisodes(searchTerm: string): Promise<PodcastEpisode
       day: 'numeric'
     }),
     audioUrl: episode.audio_url,
-    coverImage: episode.cover_image
+    coverImage: episode.cover_image,
+    episodeUrl: episode.episode_url
   }));
 }
 
@@ -95,6 +97,7 @@ export async function getLatestEpisode(): Promise<PodcastEpisode | null> {
       day: 'numeric'
     }),
     audioUrl: data.audio_url,
-    coverImage: data.cover_image
+    coverImage: data.cover_image,
+    episodeUrl: data.episode_url
   };
 }

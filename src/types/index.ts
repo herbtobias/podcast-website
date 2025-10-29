@@ -8,6 +8,7 @@ export interface PodcastEpisode {
   publishedDate: string;
   audioUrl: string;
   coverImage: string;
+  episodeUrl?: string;
 }
 
 export interface PodcastHost {

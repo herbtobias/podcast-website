@@ -15,6 +15,7 @@ interface RSSItem {
   enclosureUrl: string;
   duration: string;
   coverImage?: string;
+  episodeUrl?: string;
 }
 
 interface SyncResult {
@@ -85,6 +86,7 @@ Deno.serve(async (req: Request) => {
           duration_minutes: parseDurationToMinutes(episode.duration),
           cover_image: episode.coverImage || "https://images.unsplash.com/photo-1520975916090-3105956dac38?q=80&w=600&auto=format&fit=crop",
           episode: extractEpisodeNumber(episode.title),
+          episode_url: episode.episodeUrl || null,
           rss_imported_at: new Date().toISOString(),
           is_preview: false,
         };
@@ -171,7 +173,7 @@ function parseRSSFeed(xmlText: string): RSSItem[] {
     const itemXml = match[1];
     
     const guidMatch = itemXml.match(/<guid[^>]*>([^<]+)<\/guid>/);
-    const titleMatch = itemXml.match(/<title><!\[CDATA\[([^\]]+)\]\]><\/title>/) || 
+    const titleMatch = itemXml.match(/<title><!\[CDATA\[([^\]]+)\]\]><\/title>/) ||
                       itemXml.match(/<title>([^<]+)<\/title>/);
     const descriptionMatch = itemXml.match(/<description><!\[CDATA\[([\s\S]*?)\]\]><\/description>/) ||
                            itemXml.match(/<description>([\s\S]*?)<\/description>/);
@@ -179,7 +181,8 @@ function parseRSSFeed(xmlText: string): RSSItem[] {
     const enclosureMatch = itemXml.match(/<enclosure[^>]*url="([^"]+)"/);
     const durationMatch = itemXml.match(/<itunes:duration>([^<]+)<\/itunes:duration>/);
     const imageMatch = itemXml.match(/<itunes:image[^>]*href="([^"]+)"/);
-    
+    const linkMatch = itemXml.match(/<link>([^<]+)<\/link>/);
+
     if (guidMatch && titleMatch && enclosureMatch) {
       items.push({
         guid: guidMatch[1],
@@ -189,6 +192,7 @@ function parseRSSFeed(xmlText: string): RSSItem[] {
         enclosureUrl: enclosureMatch[1],
         duration: durationMatch ? durationMatch[1] : "00:00",
         coverImage: imageMatch ? imageMatch[1] : undefined,
+        episodeUrl: linkMatch ? linkMatch[1] : undefined,
       });
     }
   }
