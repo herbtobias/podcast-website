@@ -5,6 +5,7 @@ export async function getAllEpisodes(): Promise<PodcastEpisode[]> {
   const { data, error } = await supabase
     .from('episodes')
     .select('*')
+    .eq('is_preview', false)
     .order('published_date', { ascending: false });
 
   if (error) {
@@ -38,6 +39,7 @@ export async function searchEpisodes(searchTerm: string): Promise<PodcastEpisode
   const { data, error } = await supabase
     .from('episodes')
     .select('*')
+    .eq('is_preview', false)
     .or(`title.ilike.%${searchTerm}%,description.ilike.%${searchTerm}%`)
     .order('published_date', { ascending: false });
 
@@ -68,6 +70,7 @@ export async function getLatestEpisode(): Promise<PodcastEpisode | null> {
   const { data, error } = await supabase
     .from('episodes')
     .select('*')
+    .eq('is_preview', false)
     .order('published_date', { ascending: false })
     .limit(1)
     .maybeSingle();

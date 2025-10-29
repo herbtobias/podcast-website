@@ -87,6 +87,7 @@ Deno.serve(async (req: Request) => {
           season: extractSeasonNumber(episode.title),
           episode: extractEpisodeNumber(episode.title),
           rss_imported_at: new Date().toISOString(),
+          is_preview: false,
         };
 
         if (existingEpisode.data) {
