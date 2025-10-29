@@ -60,7 +60,7 @@ export const platforms: PlatformLink[] = [
   {
     id: 'spotify',
     name: 'Spotify',
-    url: 'https://open.spotify.com',
+    url: 'https://open.spotify.com/show/6tfL44Ad4WixIzLO2DBek8',
     icon: 'radio',
     description: 'Streamen & Folgen'
   },
