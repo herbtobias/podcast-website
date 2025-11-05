@@ -101,3 +101,38 @@ export async function getLatestEpisode(): Promise<PodcastEpisode | null> {
     episodeUrl: data.episode_url
   };
 }
+
+export interface SyncResult {
+  success: boolean;
+  message: string;
+  details: {
+    episodesAdded: number;
+    episodesUpdated: number;
+    episodesTotal: number;
+    errors: string[];
+  };
+}
+
+export async function syncRSSFeed(): Promise<SyncResult> {
+  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+  const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+  const apiUrl = `${supabaseUrl}/functions/v1/sync-rss-feed`;
+
+  const headers = {
+    'Authorization': `Bearer ${supabaseAnonKey}`,
+    'Content-Type': 'application/json',
+  };
+
+  const response = await fetch(apiUrl, {
+    method: 'POST',
+    headers,
+  });
+
+  if (!response.ok) {
+    throw new Error(`Sync failed: ${response.statusText}`);
+  }
+
+  const result = await response.json();
+  return result;
+}
