@@ -35,7 +35,7 @@ export default function Hero() {
             className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-slate-300/80 backdrop-blur hover:border-cyan-400/30 hover:bg-white/10 hover:text-cyan-200 transition-all duration-300 cursor-pointer"
           >
             <span className="inline-flex h-1.5 w-1.5 rounded-full bg-cyan-400 shadow-[0_0_16px_rgba(34,211,238,0.8)]"></span>
-            Bald Neue Folgen jede Woche, melde dich jetzt zum Newsletter an!
+            Neue Folgen jede Woche immer Dienstags!
           </button>
           <h1 className="mt-6 text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-semibold tracking-tight text-white break-words leading-tight">
             <TextPressure text="Zukunft ist relativ" />
