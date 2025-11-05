@@ -66,7 +66,7 @@ export const platforms: PlatformLink[] = [
   {
     id: 'apple',
     name: 'Apple Podcasts',
-    url: 'https://podcasts.apple.com',
+    url: 'https://podcasts.apple.com/us/podcast/zukunft-ist-relativ/id1850952923',
     icon: 'podcast',
     description: 'Abonnieren'
   },
