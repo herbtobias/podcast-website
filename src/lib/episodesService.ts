@@ -1,4 +1,4 @@
-import { supabase } from './supabase/client';
+import { supabase } from './supabase';
 import { PodcastEpisode } from '../types';
 
 export async function getAllEpisodes(): Promise<PodcastEpisode[]> {
@@ -114,8 +114,8 @@ export interface SyncResult {
 }
 
 export async function syncRSSFeed(): Promise<SyncResult> {
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+  const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
   const apiUrl = `${supabaseUrl}/functions/v1/sync-rss-feed`;
 

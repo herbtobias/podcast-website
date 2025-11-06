@@ -1,8 +1,6 @@
-'use client'
-
 import { useState, useEffect } from 'react';
 import { Clock, Calendar, ArrowRight, Loader2 } from 'lucide-react';
-import Link from 'next/link';
+import { Link } from 'react-router-dom';
 import AudioPlayer from './AudioPlayer';
 import { getLatestEpisode } from '../lib/episodesService';
 import { PodcastEpisode } from '../types';
@@ -75,7 +73,7 @@ export default function LatestEpisode() {
 
         <div className="mt-8 flex justify-center">
           <Link
-            href="/episoden"
+            to="/episoden"
             className="group inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-cyan-500 text-slate-900 font-medium hover:bg-cyan-400 transition-all duration-300 shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40"
           >
             Alle Episoden anzeigen

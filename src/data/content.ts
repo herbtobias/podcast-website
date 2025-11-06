@@ -1,7 +1,6 @@
 import { PodcastEpisode, PodcastHost, Topic, PlatformLink } from '../types';
-
-const profilePicture = '/images/profil_picture_th.jpg';
-const profilePicturePG = '/images/profil_picture_pg.jpg';
+import profilePicture from './profil_picture_th.jpg';
+import profilePicturePG from './profil_picture_pg.jpg';
 
 export const latestEpisode: PodcastEpisode = {
   id: '7',

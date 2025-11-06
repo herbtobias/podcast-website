@@ -1,3 +1,4 @@
+import { Helmet } from 'react-helmet-async';
 import { PodcastEpisode } from '../types';
 
 interface StructuredDataProps {
@@ -6,7 +7,7 @@ interface StructuredDataProps {
 }
 
 export default function StructuredData({ type, episode }: StructuredDataProps) {
-  const siteUrl = '';
+  const siteUrl = typeof window !== 'undefined' ? window.location.origin : '';
 
   const websiteSchema = {
     "@context": "https://schema.org",
@@ -78,9 +79,10 @@ export default function StructuredData({ type, episode }: StructuredDataProps) {
   }
 
   return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
-    />
+    <Helmet>
+      <script type="application/ld+json">
+        {JSON.stringify(schema)}
+      </script>
+    </Helmet>
   );
 }
