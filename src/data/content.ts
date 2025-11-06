@@ -71,9 +71,9 @@ export const platforms: PlatformLink[] = [
     description: 'Abonnieren'
   },
   {
-    id: 'google',
-    name: 'Google Podcasts',
-    url: 'https://podcasts.google.com',
+    id: 'youtube',
+    name: 'YouTube Podcasts',
+    url: 'https://www.youtube.com/playlist?list=PLJs4AwniLVeRxjIFCQwbewSXaQC6BhxJZ',
     icon: 'waves',
     description: 'Entdecken'
   },
