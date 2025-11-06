@@ -80,7 +80,7 @@ export const platforms: PlatformLink[] = [
   {
     id: 'amazon',
     name: 'Amazon Music',
-    url: 'https://music.amazon.com',
+    url: 'https://music.amazon.de/podcasts/6743e217-e48f-4bf6-bf8c-5aa699d375a5/zukunft-ist-relativ',
     icon: 'music',
     description: 'Anhören'
   }
