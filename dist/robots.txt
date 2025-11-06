@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://zukunft-ist-relativ.com/sitemap.xml
