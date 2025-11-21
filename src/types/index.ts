@@ -40,3 +40,33 @@ export interface NewsletterSubscription {
   email: string;
   created_at?: string;
 }
+
+export interface EpisodeTranscription {
+  id: string;
+  episode_id: string;
+  transcription_text: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface EpisodeLink {
+  id: string;
+  episode_id: string;
+  title: string;
+  url: string;
+  description: string;
+  display_order: number;
+  created_at: string;
+}
+
+export interface AdminUser {
+  id: string;
+  email: string;
+  created_at: string;
+  created_by?: string;
+}
+
+export interface EpisodeDetail extends PodcastEpisode {
+  transcription?: EpisodeTranscription;
+  links: EpisodeLink[];
+}

@@ -1,9 +1,9 @@
 import { Helmet } from 'react-helmet-async';
-import { PodcastEpisode } from '../types';
+import { PodcastEpisode, EpisodeDetail } from '../types';
 
 interface StructuredDataProps {
   type: 'website' | 'podcast' | 'episode';
-  episode?: PodcastEpisode;
+  episode?: PodcastEpisode | EpisodeDetail;
 }
 
 export default function StructuredData({ type, episode }: StructuredDataProps) {

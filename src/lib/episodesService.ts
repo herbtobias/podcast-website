@@ -1,5 +1,5 @@
 import { supabase } from './supabase';
-import { PodcastEpisode } from '../types';
+import { PodcastEpisode, EpisodeDetail, EpisodeLink } from '../types';
 
 export async function getAllEpisodes(): Promise<PodcastEpisode[]> {
   const { data, error } = await supabase
@@ -135,4 +135,108 @@ export async function syncRSSFeed(): Promise<SyncResult> {
 
   const result = await response.json();
   return result;
+}
+
+export async function getEpisodeByNumber(episodeNumber: number): Promise<EpisodeDetail | null> {
+  const { data: episodeData, error: episodeError } = await supabase
+    .from('episodes')
+    .select('*')
+    .eq('episode', episodeNumber)
+    .eq('is_preview', false)
+    .maybeSingle();
+
+  if (episodeError) {
+    console.error('Error fetching episode:', episodeError);
+    throw episodeError;
+  }
+
+  if (!episodeData) {
+    return null;
+  }
+
+  const { data: transcriptionData } = await supabase
+    .from('episode_transcriptions')
+    .select('*')
+    .eq('episode_id', episodeData.id)
+    .maybeSingle();
+
+  const { data: linksData } = await supabase
+    .from('episode_links')
+    .select('*')
+    .eq('episode_id', episodeData.id)
+    .order('display_order', { ascending: true });
+
+  return {
+    id: episodeData.id,
+    title: episodeData.title,
+    episode: episodeData.episode,
+    duration: episodeData.duration,
+    durationMinutes: episodeData.duration_minutes,
+    description: episodeData.description,
+    publishedDate: new Date(episodeData.published_date).toLocaleDateString('de-DE', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    }),
+    audioUrl: episodeData.audio_url,
+    coverImage: episodeData.cover_image,
+    episodeUrl: episodeData.episode_url,
+    transcription: transcriptionData || undefined,
+    links: linksData || []
+  };
+}
+
+export async function saveTranscription(episodeId: string, transcriptionText: string): Promise<void> {
+  const { data: existing } = await supabase
+    .from('episode_transcriptions')
+    .select('id')
+    .eq('episode_id', episodeId)
+    .maybeSingle();
+
+  if (existing) {
+    const { error } = await supabase
+      .from('episode_transcriptions')
+      .update({
+        transcription_text: transcriptionText,
+        updated_at: new Date().toISOString()
+      })
+      .eq('episode_id', episodeId);
+
+    if (error) throw error;
+  } else {
+    const { error } = await supabase
+      .from('episode_transcriptions')
+      .insert({
+        episode_id: episodeId,
+        transcription_text: transcriptionText
+      });
+
+    if (error) throw error;
+  }
+}
+
+export async function saveEpisodeLink(link: Omit<EpisodeLink, 'id' | 'created_at'>): Promise<void> {
+  const { error } = await supabase
+    .from('episode_links')
+    .insert(link);
+
+  if (error) throw error;
+}
+
+export async function updateEpisodeLink(linkId: string, updates: Partial<EpisodeLink>): Promise<void> {
+  const { error } = await supabase
+    .from('episode_links')
+    .update(updates)
+    .eq('id', linkId);
+
+  if (error) throw error;
+}
+
+export async function deleteEpisodeLink(linkId: string): Promise<void> {
+  const { error } = await supabase
+    .from('episode_links')
+    .delete()
+    .eq('id', linkId);
+
+  if (error) throw error;
 }

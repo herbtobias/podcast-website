@@ -1,4 +1,5 @@
 import { Play, Clock } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { PodcastEpisode } from '../types';
 
 interface EpisodeListCardProps {
@@ -7,6 +8,8 @@ interface EpisodeListCardProps {
 }
 
 export default function EpisodeListCard({ episode, onPlay }: EpisodeListCardProps) {
+  const navigate = useNavigate();
+
   const handlePlayClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (onPlay) {
@@ -15,9 +18,7 @@ export default function EpisodeListCard({ episode, onPlay }: EpisodeListCardProp
   };
 
   const handleCardClick = () => {
-    if (episode.episodeUrl) {
-      window.open(episode.episodeUrl, '_blank', 'noopener,noreferrer');
-    }
+    navigate(`/episode/${episode.episode}`);
   };
 
   return (
