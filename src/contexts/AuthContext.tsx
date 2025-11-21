@@ -24,15 +24,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const { data: { user } } = await supabase.auth.getUser();
 
     if (!user?.email) {
+      console.log('No user email found');
       setIsAdmin(false);
       return false;
     }
+
+    console.log('Checking admin status for email:', user.email);
 
     const { data, error } = await supabase
       .from('admin_users')
       .select('email')
       .eq('email', user.email)
       .maybeSingle();
+
+    if (error) {
+      console.error('Error checking admin status:', error);
+    }
+
+    console.log('Admin check result:', { data, error });
 
     const adminStatus = !error && data !== null;
     setIsAdmin(adminStatus);
