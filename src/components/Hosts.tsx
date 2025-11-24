@@ -18,7 +18,7 @@ export default function Hosts() {
                 <img
                   src={host.image}
                   alt={`Profilbild von ${host.name}, ${host.role}`}
-                  className="h-20 w-20 rounded-full object-cover ring-2 ring-cyan-400/30"
+                  className="h-20 w-20 rounded-full object-cover ring-2 ring-cyan-400/30 flex-shrink-0"
                 />
                 <div>
                   <div className="text-white/95 font-medium">{host.name}</div>
