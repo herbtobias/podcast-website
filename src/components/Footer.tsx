@@ -1,5 +1,6 @@
-import { X, Mail } from "lucide-react";
+import { X, Mail, LogIn } from "lucide-react";
 import { useState } from "react";
+import { Link } from 'react-router-dom';
 import Impressum from "./Impressum";
 
 export default function Footer() {
@@ -31,6 +32,13 @@ export default function Footer() {
             >
               Impressum
             </button>
+            <Link
+              to="/login"
+              className="flex items-center gap-1.5 text-sm text-slate-400 hover:text-cyan-300 hover:underline underline-offset-4"
+            >
+              <LogIn className="h-4 w-4" />
+              Admin
+            </Link>
             <div className="h-4 w-px bg-white/10 mx-1"></div>
             <div className="flex items-center gap-3">
               <a

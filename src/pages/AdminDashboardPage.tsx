@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { FileText, Link as LinkIcon, Podcast } from 'lucide-react';
+import { FileText, Link as LinkIcon, Podcast, RefreshCw } from 'lucide-react';
 import AdminNav from '../components/AdminNav';
 import GalaxyBackground from '../components/GalaxyBackground';
 
@@ -19,7 +19,7 @@ export default function AdminDashboardPage() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <Link
             to="/admin/transcriptions"
             className="group rounded-2xl border border-white/10 bg-slate-900/40 backdrop-blur-sm p-8 hover:border-cyan-400/50 hover:bg-slate-900/60 transition-all"
@@ -68,6 +68,23 @@ export default function AdminDashboardPage() {
             </div>
             <p className="text-slate-400">
               Sieh dir alle veröffentlichten Podcast-Episoden an.
+            </p>
+          </Link>
+
+          <Link
+            to="/admin/sync-episodes"
+            className="group rounded-2xl border border-white/10 bg-slate-900/40 backdrop-blur-sm p-8 hover:border-cyan-400/50 hover:bg-slate-900/60 transition-all"
+          >
+            <div className="flex items-center gap-4 mb-4">
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-cyan-400/10 ring-1 ring-cyan-400/30 group-hover:ring-cyan-300/60 transition">
+                <RefreshCw className="h-6 w-6 text-cyan-300" />
+              </div>
+              <h2 className="text-xl font-semibold text-white group-hover:text-cyan-300 transition-colors">
+                Episoden Sync
+              </h2>
+            </div>
+            <p className="text-slate-400">
+              Synchronisiere Episoden aus dem RSS-Feed.
             </p>
           </Link>
         </div>
