@@ -70,7 +70,7 @@ export default function LatestEpisode() {
             </div>
             <div className="mt-6">
               <Link
-                to={`/episoden/${episode.id}`}
+                to={`/episode/${episode.episode}`}
                 className="group inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-cyan-500/10 text-cyan-300 font-medium hover:bg-cyan-500/20 border border-cyan-500/20 hover:border-cyan-500/40 transition-all duration-300"
               >
                 <FileText className="h-4 w-4" />
