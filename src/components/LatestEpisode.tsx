@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Clock, Calendar, ArrowRight, Loader2 } from 'lucide-react';
+import { Clock, Calendar, ArrowRight, Loader2, FileText } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import AudioPlayer from './AudioPlayer';
 import { getLatestEpisode } from '../lib/episodesService';
@@ -67,6 +67,16 @@ export default function LatestEpisode() {
                 <Calendar className="h-4 w-4" />
                 Veröffentlicht: {episode.publishedDate}
               </div>
+            </div>
+            <div className="mt-6">
+              <Link
+                to={`/episoden/${episode.id}`}
+                className="group inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-cyan-500/10 text-cyan-300 font-medium hover:bg-cyan-500/20 border border-cyan-500/20 hover:border-cyan-500/40 transition-all duration-300"
+              >
+                <FileText className="h-4 w-4" />
+                Zum Transkript
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </Link>
             </div>
           </div>
         </div>
