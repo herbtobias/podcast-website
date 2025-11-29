@@ -32,7 +32,7 @@ async function generateSitemap() {
     process.exit(1);
   }
 
-  const baseUrl = 'https://zukunft-ist-relativ.com';
+  const baseUrl = 'https://www.zukunft-ist-relativ.de';
   const currentDate = new Date().toISOString().split('T')[0];
 
   const staticPages = [
