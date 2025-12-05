@@ -23,7 +23,6 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/episoden" element={<EpisodesPage />} />
         <Route path="/episode/:episodeNumber" element={<EpisodeDetailPage />} />
-        <Route path="/sync-episodes" element={<SyncEpisodesPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route
           path="/admin"
@@ -46,6 +45,14 @@ function App() {
           element={
             <ProtectedRoute>
               <AdminLinksPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/sync-episodes"
+          element={
+            <ProtectedRoute>
+              <SyncEpisodesPage />
             </ProtectedRoute>
           }
         />
