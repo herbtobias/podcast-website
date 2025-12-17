@@ -83,6 +83,13 @@ export const platforms: PlatformLink[] = [
     url: 'https://music.amazon.de/podcasts/6743e217-e48f-4bf6-bf8c-5aa699d375a5/zukunft-ist-relativ',
     icon: 'music',
     description: 'Anhören'
+  },
+  {
+    id: 'rss',
+    name: 'RSS Feed',
+    url: 'https://anchor.fm/s/10b01ce38/podcast/rss',
+    icon: 'rss',
+    description: 'Direkt abonnieren'
   }
 ];
 
