@@ -26,7 +26,6 @@ export default function Navigation() {
     { href: '#episode', label: 'Episode', type: 'anchor' },
     { href: '#topics', label: 'Themen', type: 'anchor' },
     { href: '#hosts', label: 'Hosts', type: 'anchor' },
-    { href: '#newsletter', label: 'Newsletter', type: 'anchor' },
   ];
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {

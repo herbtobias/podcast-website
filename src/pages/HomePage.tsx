@@ -3,7 +3,6 @@ import Hero from '../components/Hero';
 import HeroContent from '../components/HeroContent';
 import Subscribe from '../components/Subscribe';
 import LatestEpisode from '../components/LatestEpisode';
-import Newsletter from '../components/Newsletter';
 import Topics from '../components/Topics';
 import Hosts from '../components/Hosts';
 import Footer from '../components/Footer';
@@ -42,7 +41,6 @@ export default function HomePage() {
         <HeroContent />
         <Subscribe />
         <LatestEpisode />
-        <Newsletter />
         <Topics />
         <Hosts />
         <Footer />
