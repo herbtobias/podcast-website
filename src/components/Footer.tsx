@@ -42,7 +42,9 @@ export default function Footer() {
             <div className="h-4 w-px bg-white/10 mx-1"></div>
             <div className="flex items-center gap-3">
               <a
-                href="#"
+                href="https://x.com/herb60525"
+                target="_blank"
+                rel="noopener noreferrer"
                 aria-label="Twitter"
                 className="text-cyan-300/80 hover:text-cyan-300 transition"
               >
