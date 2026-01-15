@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { LogOut, FileText, Link as LinkIcon, LayoutDashboard } from 'lucide-react';
+import { LogOut, FileText, Link as LinkIcon, LayoutDashboard, BarChart3 } from 'lucide-react';
 
 export default function AdminNav() {
   const { user, signOut } = useAuth();
@@ -34,6 +34,13 @@ export default function AdminNav() {
               >
                 <LayoutDashboard className="h-4 w-4" />
                 Dashboard
+              </Link>
+              <Link
+                to="/admin/analytics"
+                className="flex items-center gap-2 text-slate-300 hover:text-white transition-colors px-3 py-2 rounded-lg hover:bg-white/5"
+              >
+                <BarChart3 className="h-4 w-4" />
+                Analytics
               </Link>
               <Link
                 to="/admin/transcriptions"

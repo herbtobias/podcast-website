@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { revokeConsent, getConsentStatus } from "../lib/cookieConsent";
 
 interface ImpressumProps {
   isOpen: boolean;
@@ -7,8 +8,18 @@ interface ImpressumProps {
 
 const Impressum: React.FC<ImpressumProps> = ({ isOpen, onClose }) => {
   const [isAccordionOpen, setIsAccordionOpen] = useState(false);
+  const [cookieAccordionOpen, setCookieAccordionOpen] = useState(false);
+  const [consentRevoked, setConsentRevoked] = useState(false);
+
+  const handleRevokeConsent = () => {
+    revokeConsent();
+    setConsentRevoked(true);
+    setTimeout(() => setConsentRevoked(false), 3000);
+  };
 
   if (!isOpen) return null;
+
+  const consentStatus = getConsentStatus();
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center">
@@ -26,6 +37,88 @@ const Impressum: React.FC<ImpressumProps> = ({ isOpen, onClose }) => {
             zukunft-ist-relativ@gmail.com
           </a>
         </p>
+
+        <div className="mt-6">
+          <button
+            onClick={() => setCookieAccordionOpen(!cookieAccordionOpen)}
+            className="w-full text-left text-xl font-bold mb-2 flex justify-between items-center"
+          >
+            <span>Cookie-Einstellungen & Analytics</span>
+            <span>{cookieAccordionOpen ? "−" : "+"}</span>
+          </button>
+          {cookieAccordionOpen && (
+            <div className="text-sm space-y-4 pr-4">
+              <div>
+                <p className="mb-2">
+                  <strong>Aktueller Status:</strong>{" "}
+                  {consentStatus === "accepted" && (
+                    <span className="text-green-400">Cookies akzeptiert</span>
+                  )}
+                  {consentStatus === "declined" && (
+                    <span className="text-red-400">Cookies abgelehnt</span>
+                  )}
+                  {consentStatus === "pending" && (
+                    <span className="text-yellow-400">Noch keine Entscheidung getroffen</span>
+                  )}
+                </p>
+              </div>
+
+              <div>
+                <h4 className="font-semibold mb-2">Was wir tracken</h4>
+                <p className="mb-2">
+                  Wir nutzen ein selbst-gehostetes Analytics-System, um die Nutzung unserer Website zu verstehen und zu verbessern.
+                  Dabei werden folgende Daten erfasst:
+                </p>
+                <ul className="list-disc list-inside space-y-1 ml-2">
+                  <li>Besuchte Seiten und Seitentitel</li>
+                  <li>Zeitpunkt des Besuchs</li>
+                  <li>Browser-Typ und Bildschirmauflösung</li>
+                  <li>Herkunft (Referrer-URL)</li>
+                  <li>Interaktionen (z.B. Episode-Wiedergabe, Klicks auf externe Links)</li>
+                </ul>
+              </div>
+
+              <div>
+                <h4 className="font-semibold mb-2">Datenschutz</h4>
+                <p className="mb-2">
+                  Alle Daten werden ausschließlich auf unseren eigenen Servern (Supabase) gespeichert und
+                  niemals an Dritte weitergegeben. Es werden keine personenbezogenen Daten wie IP-Adressen
+                  oder Namen gespeichert. Die Datenerfassung erfolgt komplett anonymisiert über eine zufällig
+                  generierte Session-ID.
+                </p>
+              </div>
+
+              <div>
+                <h4 className="font-semibold mb-2">Cookies</h4>
+                <p className="mb-2">
+                  Wir verwenden einen Cookie mit dem Namen <code className="bg-slate-700 px-1 py-0.5 rounded">zir_session_id</code>,
+                  der eine zufällig generierte Session-ID speichert. Dieser Cookie hat eine Laufzeit von 365 Tagen
+                  und dient ausschließlich dazu, Besuche über mehrere Sitzungen hinweg zu erkennen.
+                </p>
+              </div>
+
+              <div className="bg-slate-700/50 p-4 rounded-lg">
+                <h4 className="font-semibold mb-2">Einwilligung widerrufen</h4>
+                <p className="mb-3">
+                  Du kannst deine Einwilligung zur Nutzung von Cookies jederzeit widerrufen.
+                  Alle gespeicherten Cookies werden dann gelöscht und es werden keine weiteren Daten erfasst.
+                </p>
+                <button
+                  onClick={handleRevokeConsent}
+                  className="bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded transition"
+                >
+                  Cookie-Einwilligung widerrufen
+                </button>
+                {consentRevoked && (
+                  <p className="mt-2 text-green-400">
+                    Deine Einwilligung wurde widerrufen und alle Cookies wurden gelöscht.
+                  </p>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+
         <div>
           <button
             onClick={() => setIsAccordionOpen(!isAccordionOpen)}

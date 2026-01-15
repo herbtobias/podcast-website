@@ -1,5 +1,6 @@
 import { Play, Pause, SkipBack, SkipForward, Volume2 } from 'lucide-react';
 import { useAudioPlayer } from '../hooks/useAudioPlayer';
+import { trackEpisodePlay } from '../lib/analytics';
 
 interface AudioPlayerProps {
   audioUrl: string;
@@ -40,11 +41,18 @@ export default function AudioPlayer({ audioUrl, title, episode }: AudioPlayerPro
   const progressPercentage = duration ? (currentTime / duration) * 100 : 0;
   const volumePercentage = volume * 100;
 
+  const handlePlayPause = () => {
+    if (!isPlaying) {
+      trackEpisodePlay(episode, title);
+    }
+    togglePlayPause();
+  };
+
   return (
     <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-4 sm:p-6 backdrop-blur">
       <div className="flex items-center gap-4">
         <button
-          onClick={togglePlayPause}
+          onClick={handlePlayPause}
           className="group relative flex h-14 w-14 items-center justify-center rounded-full bg-cyan-500 text-slate-900 hover:bg-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/60 focus:ring-offset-0 shadow-[0_0_0_1px_rgba(34,211,238,0.4),0_10px_30px_rgba(34,211,238,0.25)] transition"
           aria-label={isPlaying ? 'Pause' : 'Play'}
         >

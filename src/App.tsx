@@ -8,17 +8,23 @@ import LoginPage from './pages/LoginPage';
 import AdminDashboardPage from './pages/AdminDashboardPage';
 import AdminTranscriptionsPage from './pages/AdminTranscriptionsPage';
 import AdminLinksPage from './pages/AdminLinksPage';
+import AdminAnalyticsPage from './pages/AdminAnalyticsPage';
 import ProtectedRoute from './components/ProtectedRoute';
+import CookieConsent from './components/CookieConsent';
 import { AuthProvider } from './contexts/AuthContext';
+import { useAnalytics } from './hooks/useAnalytics';
 
 function App() {
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith('/admin');
   const isLoginRoute = location.pathname === '/login';
 
+  useAnalytics();
+
   return (
     <AuthProvider>
       {!isAdminRoute && !isLoginRoute && <Navigation />}
+      <CookieConsent />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/episoden" element={<EpisodesPage />} />
@@ -53,6 +59,14 @@ function App() {
           element={
             <ProtectedRoute>
               <SyncEpisodesPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/analytics"
+          element={
+            <ProtectedRoute>
+              <AdminAnalyticsPage />
             </ProtectedRoute>
           }
         />
