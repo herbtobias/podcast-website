@@ -15,7 +15,7 @@ export default function SEO({
   title = 'Zukunft ist relativ — dein neuer Podcast',
   description = 'Der Podcast über das neue KI-Zeitalter, Identität und die Pfade des Fortschritts. Tobias und Patrick erkunden KI, Kreativität, nachhaltige Technologie und die Zukunft des Körpers.',
   keywords = 'Podcast, KI, Künstliche Intelligenz, Zukunft, Technologie, Kreativität, Innovation, Wissenschaft, Philosophie, generative KI, Biohacking, Nachhaltigkeit',
-  ogImage = 'https://images.unsplash.com/photo-1520975916090-3105956dac38?q=80&w=1200&auto=format&fit=crop',
+  ogImage,
   ogType = 'website',
   canonicalUrl,
   publishedTime,
@@ -23,6 +23,8 @@ export default function SEO({
 }: SEOProps) {
   const siteUrl = typeof window !== 'undefined' ? window.location.origin : '';
   const currentUrl = canonicalUrl || (typeof window !== 'undefined' ? window.location.href : siteUrl);
+  const defaultOgImage = `${siteUrl}/a-modern-podcast-cover-design-featuring-_rBTAtIGJReKEy0JWYXpUGA_HW6dYoa6STur4vqvdLqtRA.jpeg`;
+  const resolvedOgImage = ogImage || defaultOgImage;
 
   return (
     <Helmet>
@@ -34,7 +36,7 @@ export default function SEO({
 
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
-      <meta property="og:image" content={ogImage} />
+      <meta property="og:image" content={resolvedOgImage} />
       <meta property="og:url" content={currentUrl} />
       <meta property="og:type" content={ogType} />
       <meta property="og:site_name" content="Zukunft ist relativ" />
@@ -43,7 +45,7 @@ export default function SEO({
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
-      <meta name="twitter:image" content={ogImage} />
+      <meta name="twitter:image" content={resolvedOgImage} />
 
       {publishedTime && <meta property="article:published_time" content={publishedTime} />}
       {author && <meta property="article:author" content={author} />}
