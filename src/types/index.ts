@@ -17,6 +17,7 @@ export interface PodcastHost {
   role: string;
   bio: string;
   image: string;
+  email?: string;
 }
 
 export interface Topic {

@@ -1,3 +1,4 @@
+import { Mail } from 'lucide-react';
 import { hosts } from '../data/content';
 
 export default function Hosts() {
@@ -23,6 +24,16 @@ export default function Hosts() {
                 <div>
                   <div className="text-white/95 font-medium">{host.name}</div>
                   <div className="text-xs text-slate-400">{host.role}</div>
+                  {host.email && (
+                    <a
+                      href={`mailto:${host.email}`}
+                      aria-label={`E-Mail an ${host.name}`}
+                      className="mt-1.5 inline-flex items-center gap-1.5 text-xs text-cyan-300/70 hover:text-cyan-300 transition"
+                    >
+                      <Mail className="h-3.5 w-3.5" />
+                      {host.email}
+                    </a>
+                  )}
                 </div>
               </div>
               <p className="mt-4 text-sm leading-relaxed text-slate-300">

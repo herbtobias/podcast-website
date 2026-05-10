@@ -20,7 +20,8 @@ export const hosts: PodcastHost[] = [
     name: 'Tobias',
     role: 'Der analytische Vordenker und technologiebegeisterte Co-Host',
     bio: 'Tobias ist der Co-Host mit einem Gespür für zukünftige Trends, der die Diskussionen mit Einblicken in agile KI-Entwicklung, gesellschaftliche Dynamiken und zeitgenössische Philosophie bereichert.',
-    image: profilePicture
+    image: profilePicture,
+    email: 'tobias@zirmail.de'
   },
   {
     id: '2',
