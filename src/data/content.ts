@@ -28,7 +28,8 @@ export const hosts: PodcastHost[] = [
     name: 'Patrick',
     role: 'Der strukturierte Rebell und Macher mit pragmatischem Weitblick',
     bio: 'Patrick ist der Co-Host, der Klartext spricht.  mit einem Händchen für Struktur und einem Herzen für Freiheit bringt er Praxis, Humor und Haltung zusammen. Er navigiert durch Themen wie KI, Gesellschaft, Effizienz und Wandel – immer mit dem Blick dafür, was wirklich funktioniert. Zwischen Chaos und Klarheit ist Patrick derjenige, der den roten Faden findet und Fragen stellt, die andere lieber vermeiden.',
-    image: profilePicturePG
+    image: profilePicturePG,
+    email: 'patrick@zirmail.de'
   }
 ];
 
