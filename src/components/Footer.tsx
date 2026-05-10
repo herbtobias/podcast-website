@@ -51,7 +51,7 @@ export default function Footer() {
                 <X className="h-5 w-5" />
               </a>
               <a
-                href="#"
+                href="mailto:info@zirmail.de"
                 aria-label="E-Mail"
                 className="text-cyan-300/80 hover:text-cyan-300 transition"
               >
