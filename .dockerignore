@@ -1,0 +1,15 @@
+.git
+.github
+node_modules
+dist
+.next
+.env
+.env.*
+!.env.example
+.DS_Store
+tsconfig.tsbuildinfo
+
+# Backend-Code, fuer das Frontend-Bundle irrelevant
+supabase/
+
+*.log

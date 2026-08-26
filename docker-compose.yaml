@@ -1,0 +1,17 @@
+# Nur fuer den lokalen Test des Containers gedacht.
+# In Coolify wird stattdessen der Dockerfile-Buildpack verwendet.
+#
+#   docker compose up --build   ->   http://localhost:8080
+
+services:
+  web:
+    build:
+      context: .
+      args:
+        # Vite backt diese Werte beim Build ins Bundle, daher build args
+        # und keine Runtime-Env.
+        VITE_SUPABASE_URL: ${VITE_SUPABASE_URL}
+        VITE_SUPABASE_ANON_KEY: ${VITE_SUPABASE_ANON_KEY}
+    ports:
+      - "8080:80"
+    restart: unless-stopped

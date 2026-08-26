@@ -1,154 +1,161 @@
-# Deployment auf den eigenen VPS
+# Deployment via Docker auf Coolify
 
-Die Site ist ein statisches Vite/React-Bundle. Es laeuft **kein** Node-Prozess auf
-dem Server — nginx liefert nur die Dateien aus `dist/` aus.
+Die Site ist ein statisches Vite/React-Bundle. Der Container baut es und liefert
+es mit nginx aus — es laeuft **kein** Node-Prozess im Betrieb.
 
 Das Backend (Datenbank, Auth, Edge Function `sync-rss-feed`, pg_cron) bleibt bei
 **Supabase Cloud** und ist vom Umzug nicht betroffen.
 
+TLS, Zertifikate und Domain-Routing macht Coolify mit Traefik vor dem Container.
+Deshalb hoert nginx im Container nur auf Port 80 ohne TLS.
+
 ---
 
-## Einmalige Einrichtung
+## Der eine Punkt, an dem es sonst scheitert
 
-### 1. Lokal: `.env` anlegen
+Vite ersetzt `import.meta.env.VITE_*` **zur Build-Zeit** durch feste Strings.
+Als normale Runtime-Variablen im Container haben sie keinerlei Wirkung — die
+Seite laedt dann, wirft aber sofort `Missing Supabase environment variables`.
 
-```bash
-cp .env.example .env
-```
+In Coolify muessen bei beiden Variablen deshalb **„Build Variable"** aktiviert
+sein. Im Dockerfile stehen sie als `ARG`.
 
-`VITE_SUPABASE_ANON_KEY` aus dem Supabase-Dashboard eintragen
-(Project Settings → API → `anon public`).
+---
 
-### 2. VPS vorbereiten
+## Setup in Coolify
 
-```sh
-sudo apt update && sudo apt install -y nginx rsync certbot python3-certbot-nginx
-sudo adduser --disabled-password --gecos "" deploy
-sudo mkdir -p /var/www/zir
-sudo chown -R deploy:deploy /var/www/zir
-```
+### 1. Ressource anlegen
 
-SSH-Key des Deploy-Users hinterlegen (vom eigenen Rechner):
+*New Resource* → **Public Repository** (oder GitHub App, wenn du Auto-Deploy
+bei jedem Push willst)
 
-```sh
-ssh-copy-id deploy@VPS-IP
-```
+| Feld | Wert |
+|---|---|
+| Repository | `https://github.com/herbtobias/podcast-website` |
+| Branch | `main` |
+| Build Pack | **Dockerfile** |
+| Dockerfile Location | `/Dockerfile` |
+| Ports Exposes | `80` |
 
-### 3. nginx konfigurieren
+### 2. Environment Variables
 
-`deploy/nginx/zukunft-ist-relativ.conf` auf den Server kopieren:
+Beide mit aktivem **Build Variable**-Haken:
 
-```sh
-scp deploy/nginx/zukunft-ist-relativ.conf deploy@VPS-IP:/tmp/
-```
+| Name | Wert |
+|---|---|
+| `VITE_SUPABASE_URL` | `https://zjgydlqerspetjmghbst.supabase.co` |
+| `VITE_SUPABASE_ANON_KEY` | anon key aus Supabase → Project Settings → API |
 
-Auf dem VPS:
+Der anon key ist kein Geheimnis — er landet ohnehin im Client-Bundle und ist
+im Browser lesbar. Abgesichert wird der Zugriff ueber Row Level Security in
+Supabase, nicht ueber den Key. Deshalb ist auch die Docker-Build-Warnung
+`SecretsUsedInArgOrEnv` hier unkritisch.
 
-```sh
-sudo mv /tmp/zukunft-ist-relativ.conf /etc/nginx/sites-available/
-sudo ln -s /etc/nginx/sites-available/zukunft-ist-relativ.conf /etc/nginx/sites-enabled/
-sudo rm -f /etc/nginx/sites-enabled/default
-sudo nginx -t && sudo systemctl reload nginx
-```
+### 3. Domains
 
-### 4. Ersten Build hochladen
-
-```bash
-DEPLOY_HOST=VPS-IP ./deploy/deploy.sh
-```
-
-### 5. Vor dem DNS-Wechsel testen
-
-Ohne die Domain umzustellen: auf dem eigenen Rechner temporaer in
-`/etc/hosts` eintragen —
+Ins FQDN-Feld **beide** Domains eintragen:
 
 ```
-VPS-IP  www.zukunft-ist-relativ.de zukunft-ist-relativ.de
+https://www.zukunft-ist-relativ.de,https://zukunft-ist-relativ.de
 ```
 
-Dann im Browser durchklicken. Wichtig sind die Deep-Links, weil die
-den SPA-Fallback pruefen:
+Beide muessen dort stehen, sonst routet Traefik die nackte Domain gar nicht
+erst zum Container — und der Apex→www-Redirect in `deploy/nginx/default.conf`
+wuerde nie greifen. Coolify holt fuer beide ein Let's-Encrypt-Zertifikat.
 
-- `/` und `/episoden`
-- `/episode/1` (direkt aufrufen, nicht durchklicken → testet `try_files`)
-- `/admin` → Google-Login
-- `/robots.txt`, `/sitemap.xml`
+### 4. Healthcheck
 
-Danach den `/etc/hosts`-Eintrag wieder entfernen.
+Der Container bringt einen Endpoint mit, den Coolify fuer Zero-Downtime-Deploys
+nutzen kann:
 
-### 6. DNS umstellen
+| Feld | Wert |
+|---|---|
+| Path | `/healthz` |
+| Port | `80` |
+
+### 5. DNS
 
 Beim Domain-Provider TTL vorab auf 300s senken, dann:
 
-| Record | Name  | Wert   |
-|--------|-------|--------|
-| A      | `@`   | VPS-IP |
-| A      | `www` | VPS-IP |
+| Record | Name | Wert |
+|---|---|---|
+| A | `@` | IP des Coolify-Servers |
+| A | `www` | IP des Coolify-Servers |
 
-(zusaetzlich `AAAA`, falls der VPS IPv6 hat). Alte Bolt-/Netlify-Records loeschen.
+Zusaetzlich `AAAA`, falls der Server IPv6 hat. Alte Bolt-/Netlify-Records loeschen.
 
-### 7. TLS-Zertifikat
+### 6. Deploy
 
-Erst **nach** DNS-Propagation (`dig www.zukunft-ist-relativ.de +short`):
-
-```sh
-sudo certbot --nginx -d zukunft-ist-relativ.de -d www.zukunft-ist-relativ.de
-```
-
-Certbot ergaenzt HTTPS-Redirect und richtet Auto-Renewal ein.
+*Deploy* klicken. Mit GitHub App deployt Coolify danach bei jedem Push auf
+`main` automatisch.
 
 ---
 
-## Laufender Betrieb
-
-### Manuell deployen
+## Lokal testen
 
 ```bash
-DEPLOY_HOST=VPS-IP ./deploy/deploy.sh
+cp .env.example .env      # anon key eintragen
+docker compose up --build
 ```
 
-Bequemer: `deploy/deploy.env` anlegen (ist gitignored):
+→ http://localhost:8080
 
-```bash
-DEPLOY_HOST=1.2.3.4
-DEPLOY_USER=deploy
-```
+Was dabei wichtig ist zu pruefen (das sind die Dinge, die ein statischer
+Fileserver typischerweise falsch macht):
 
-### Automatisch per GitHub Actions
+| Test | Erwartung |
+|---|---|
+| `/` | 200 |
+| `/episode/12` **direkt aufrufen** | 200, nicht 404 — prueft den SPA-Fallback |
+| `/admin` direkt aufrufen | 200 |
+| `/healthz` | `ok` |
+| `curl -I -H 'Host: zukunft-ist-relativ.de' localhost:8080/` | 301 auf www |
+| `/robots.txt`, `/sitemap.xml` | 200 |
 
-`.github/workflows/deploy.yml` baut und deployt bei jedem Push auf `main`.
-Dafuer unter *Settings → Secrets and variables → Actions* anlegen:
+---
 
-| Secret | Wert |
-|--------|------|
-| `VITE_SUPABASE_URL` | `https://zjgydlqerspetjmghbst.supabase.co` |
-| `VITE_SUPABASE_ANON_KEY` | anon key aus Supabase |
-| `DEPLOY_HOST` | VPS-IP |
-| `DEPLOY_USER` | `deploy` |
-| `DEPLOY_PATH` | `/var/www/zir` |
-| `DEPLOY_SSH_KEY` | privater SSH-Key (ohne Passphrase) |
-| `DEPLOY_KNOWN_HOSTS` | Ausgabe von `ssh-keyscan VPS-IP` |
+## Wie der Build funktioniert
 
-Deploy-Key erzeugen:
+`Dockerfile`, zwei Stages:
 
-```bash
-ssh-keygen -t ed25519 -C "github-actions-deploy" -f ~/.ssh/zir_deploy -N ""
-```
+1. **build** (`node:22-alpine`) — `npm ci`, Sitemap generieren, `npm run build`
+2. **runtime** (`nginx:1.27-alpine`) — nur `dist/` + `deploy/nginx/default.conf`
 
-Public Key (`~/.ssh/zir_deploy.pub`) in `/home/deploy/.ssh/authorized_keys`
-auf dem VPS eintragen, privaten Key als `DEPLOY_SSH_KEY` hinterlegen.
+Ergebnis: ~52 MB Image, kein Node zur Laufzeit.
+
+### Sitemap
+
+`npm run generate-sitemap` zieht die Episoden aus Supabase und schreibt
+`public/sitemap.xml`. Im Dockerfile ist der Schritt **bewusst nicht fatal**:
+faellt Supabase beim Build aus, wird die eingecheckte `public/sitemap.xml`
+verwendet statt den ganzen Deploy abzubrechen.
+
+Deshalb laeuft der eigentliche Build danach mit `npm run build --ignore-scripts`
+— sonst wuerde das `prebuild`-Hook die Sitemap ein zweites Mal erzeugen, dann
+ohne diesen Fallback.
+
+### nginx
+
+Die drei Dinge, die in `deploy/nginx/default.conf` wirklich zaehlen:
+
+- **`try_files $uri $uri/ /index.html`** — Ersatz fuer Bolts `_redirects`.
+  Ohne das geben alle Deep-Links beim Direktaufruf 404.
+- **`index.html` mit `no-cache`, `/assets/` mit `immutable`** — sonst haengen
+  Besucher nach einem Deploy auf einer alten `index.html`, die auf nicht mehr
+  existierende Asset-Hashes zeigt.
+- **`/healthz` als eigene location** — muss vor dem www-Redirect stehen, weil
+  der Healthcheck ueber `127.0.0.1` kommt und nicht ueber die echte Domain.
 
 ---
 
 ## Bolt abschalten
 
-Erst wenn die Seite ueber den VPS laeuft und das Zertifikat steht:
+Erst wenn die Seite ueber Coolify laeuft und das Zertifikat steht:
 
 1. In Bolt die GitHub-Verbindung zu `herbtobias/podcast-website` trennen —
    sonst pusht Bolt weiter auf `main` und loest damit Deploys aus.
 2. Bolt-Hosting/Deployment deaktivieren.
-3. In Supabase → Authentication → URL Configuration pruefen, dass unter
-   *Site URL* und *Redirect URLs* nur noch `https://www.zukunft-ist-relativ.de`
-   steht und alte Bolt-/Netlify-Preview-URLs entfernt sind.
-
-Ab dann ist der Ablauf: lokal editieren → Push auf `main` → Action deployt.
+3. Supabase → Authentication → URL Configuration: unter *Site URL* und
+   *Redirect URLs* darf nur noch `https://www.zukunft-ist-relativ.de` stehen,
+   alte Bolt-/Netlify-Preview-URLs entfernen. Sonst bricht der Google-Login
+   im Admin-Bereich.
