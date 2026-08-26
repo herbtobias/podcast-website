@@ -1,2 +1,17 @@
 node_modules/
+
+# Build-Artefakte (werden beim Deploy erzeugt, nicht committet)
+dist/
+.next/
+tsconfig.tsbuildinfo
+
+# Env
 .env
+.env.local
+.env.*.local
+
+# macOS
+.DS_Store
+
+# Lokale Deploy-Konfiguration (Host, User)
+deploy/deploy.env
