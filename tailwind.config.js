@@ -12,6 +12,7 @@ export default {
       },
       fontFamily: {
         'compress': ['CompressaPRO-GX', 'Bricolage Grotesque', 'Inter', 'Manrope', 'ui-sans-serif', 'system-ui', '-apple-system', 'sans-serif'],
+        'tech': ['Orbitron', 'ui-sans-serif', 'system-ui', '-apple-system', 'sans-serif'],
       },
     },
   },

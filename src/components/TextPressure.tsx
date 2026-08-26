@@ -54,12 +54,12 @@ export default function TextPressure({ text }: TextPressureProps) {
   return (
     <span
       ref={containerRef}
-      className="relative inline-block cursor-default select-none font-compress"
+      className="relative inline-block cursor-default select-none font-tech"
       onMouseMove={handleMouseMove}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       style={{
-        fontVariationSettings: "'wdth' 100, 'wght' 700",
+        fontVariationSettings: "'wdth' 100, 'wght' 800",
         wordBreak: 'keep-all',
         overflowWrap: 'break-word',
         hyphens: 'none',
