@@ -17,7 +17,7 @@ export default function Hero() {
 
       <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-b from-transparent via-page-bg/50 to-page-bg pointer-events-none"></div>
 
-      <div className="w-full z-10 relative px-6 md:px-8">
+      <div className="w-full max-w-5xl mx-auto z-10 relative px-6 md:px-8 md:scale-x-[0.55] origin-center">
         <div className="text-center">
           <button
             onClick={() => {
