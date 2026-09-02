@@ -10,7 +10,7 @@ export default function TextPressure({ text }: TextPressureProps) {
   const containerRef = useRef<HTMLSpanElement>(null);
   const [letterPositions, setLetterPositions] = useState<Array<{ x: number; y: number }>>([]);
 
-  const letters = Array.from(text);
+  const words = text.split(' ');
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -18,8 +18,9 @@ export default function TextPressure({ text }: TextPressureProps) {
     const updatePositions = () => {
       if (!containerRef.current) return;
       const rect = containerRef.current.getBoundingClientRect();
-      const positions = Array.from(containerRef.current.children).map((child) => {
-        const letterRect = child.getBoundingClientRect();
+      const letterSpans = containerRef.current.querySelectorAll('[data-letter]');
+      const positions = Array.from(letterSpans).map((child) => {
+        const letterRect = (child as HTMLElement).getBoundingClientRect();
         return {
           x: letterRect.left + letterRect.width / 2 - rect.left,
           y: letterRect.top + letterRect.height / 2 - rect.top
@@ -66,46 +67,56 @@ export default function TextPressure({ text }: TextPressureProps) {
         whiteSpace: 'normal'
       }}
     >
-      {letters.map((char, index) => {
-        const letterPos = letterPositions[index];
-        if (!letterPos) {
-          return (
-            <span key={index} style={{ display: 'inline-block' }}>
-              {char === ' ' ? '\u00A0' : char}
-            </span>
-          );
-        }
-
-        const distanceX = mousePos.x - letterPos.x;
-        const distanceY = mousePos.y - letterPos.y;
-        const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
-
-        const maxDistance = 100;
-        const influence = Math.max(0, 1 - distance / maxDistance);
-
-        const pushStrength = isHovered ? influence * 20 : 0;
-        const pushX = distanceX !== 0 ? (distanceX / distance) * pushStrength * -1 : 0;
-        const pushY = distanceY !== 0 ? (distanceY / distance) * pushStrength * -1 : 0;
-
-        const scale = 1 + influence * 0.3;
-        const brightness = 1 + influence * 0.8;
-
+      {words.map((word, wordIndex) => {
+        const wordLetters = Array.from(word);
         return (
-          <span
-            key={index}
-            style={{
-              display: 'inline-block',
-              transform: `translate(${pushX}px, ${pushY}px) scale(${scale})`,
-              filter: `brightness(${brightness})`,
-              transition: isHovered ? 'all 0.1s ease-out' : 'all 0.3s ease-out',
-              transformOrigin: 'center',
-              willChange: 'transform, filter',
-              textShadow: isHovered && influence > 0
-                ? `0 0 ${influence * 20}px rgba(103, 232, 249, ${influence * 0.5}), 0 0 ${influence * 40}px rgba(103, 232, 249, ${influence * 0.3})`
-                : 'none'
-            }}
-          >
-            {char === ' ' ? '\u00A0' : char}
+          <span key={wordIndex} style={{ display: 'inline-block', whiteSpace: 'nowrap' }}>
+            {wordLetters.map((char, charIndex) => {
+              const globalIndex = words.slice(0, wordIndex).reduce((sum, w) => sum + Array.from(w).length, 0) + charIndex;
+              const letterPos = letterPositions[globalIndex];
+              if (!letterPos) {
+                return (
+                  <span key={charIndex} data-letter style={{ display: 'inline-block' }}>
+                    {char}
+                  </span>
+                );
+              }
+
+              const distanceX = mousePos.x - letterPos.x;
+              const distanceY = mousePos.y - letterPos.y;
+              const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+
+              const maxDistance = 100;
+              const influence = Math.max(0, 1 - distance / maxDistance);
+
+              const pushStrength = isHovered ? influence * 20 : 0;
+              const pushX = distanceX !== 0 ? (distanceX / distance) * pushStrength * -1 : 0;
+              const pushY = distanceY !== 0 ? (distanceY / distance) * pushStrength * -1 : 0;
+
+              const scale = 1 + influence * 0.3;
+              const brightness = 1 + influence * 0.8;
+
+              return (
+                <span
+                  key={charIndex}
+                  data-letter
+                  style={{
+                    display: 'inline-block',
+                    transform: `translate(${pushX}px, ${pushY}px) scale(${scale})`,
+                    filter: `brightness(${brightness})`,
+                    transition: isHovered ? 'all 0.1s ease-out' : 'all 0.3s ease-out',
+                    transformOrigin: 'center',
+                    willChange: 'transform, filter',
+                    textShadow: isHovered && influence > 0
+                      ? `0 0 ${influence * 20}px rgba(103, 232, 249, ${influence * 0.5}), 0 0 ${influence * 40}px rgba(103, 232, 249, ${influence * 0.3})`
+                      : 'none'
+                  }}
+                >
+                  {char}
+                </span>
+              );
+            })}
+            {wordIndex < words.length - 1 ? '\u00A0' : ''}
           </span>
         );
       })}
