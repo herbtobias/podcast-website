@@ -17,7 +17,7 @@ export default function Hero() {
 
       <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-b from-transparent via-page-bg/50 to-page-bg pointer-events-none"></div>
 
-      <div className="w-full max-w-5xl mx-auto z-10 relative px-6 md:px-8 md:scale-x-[0.55] origin-center">
+      <div className="w-full max-w-5xl mx-auto z-10 relative px-6 md:px-8 flex flex-col items-center">
         <div className="text-center">
           <button
             onClick={() => {
@@ -37,7 +37,7 @@ export default function Hero() {
             <span className="inline-flex h-1.5 w-1.5 rounded-full bg-cyan-400 shadow-[0_0_16px_rgba(34,211,238,0.8)]"></span>
             Die Neue Folge kommt immer Dienstags!
           </button>
-          <h1 className="mt-6 text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-tech font-bold uppercase tracking-[0.12em] text-white break-words leading-tight">
+          <h1 className="mt-6 text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-tech font-bold uppercase tracking-[0.08em] text-white break-words leading-tight">
             <TextPressure text="Zukunft ist relativ" />
           </h1>
           <p className="mt-5 text-base sm:text-lg md:text-xl text-slate-400 max-w-2xl mx-auto">

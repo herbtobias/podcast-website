@@ -63,7 +63,7 @@ export default function TextPressure({ text }: TextPressureProps) {
         wordBreak: 'keep-all',
         overflowWrap: 'break-word',
         hyphens: 'none',
-        whiteSpace: 'nowrap'
+        whiteSpace: 'normal'
       }}
     >
       {letters.map((char, index) => {
