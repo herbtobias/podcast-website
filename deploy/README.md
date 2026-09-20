@@ -7,7 +7,9 @@ Das Backend (Datenbank, Auth, Edge Function `sync-rss-feed`, pg_cron) bleibt bei
 **Supabase Cloud** und ist vom Umzug nicht betroffen.
 
 TLS, Zertifikate und Domain-Routing macht Coolify mit Traefik vor dem Container.
-Deshalb hoert nginx im Container nur auf Port 80 ohne TLS.
+Deshalb hoert nginx im Container nur auf HTTP ohne TLS, und zwar auf
+**Port 3000** — das ist der Wert, den Coolify bei "Ports Exposes"
+voreinstellt, damit hier nichts umgestellt werden muss.
 
 ---
 
@@ -35,7 +37,7 @@ bei jedem Push willst)
 | Branch | `main` |
 | Build Pack | **Dockerfile** |
 | Dockerfile Location | `/Dockerfile` |
-| Ports Exposes | `80` |
+| Ports Exposes | `3000` |
 
 ### 2. Environment Variables
 
@@ -71,7 +73,7 @@ nutzen kann:
 | Feld | Wert |
 |---|---|
 | Path | `/healthz` |
-| Port | `80` |
+| Port | `3000` |
 
 ### 5. DNS
 
